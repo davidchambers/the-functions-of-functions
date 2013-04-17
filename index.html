@@ -5,27 +5,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=1024, user-scalable=no">
 
-  <title>Your deck.js Presentation</title>
+  <title>The Functions of Functions</title>
 
   <!-- Required stylesheet -->
   <link rel="stylesheet" href="lib/deck.js/core/deck.core.css">
 
   <!-- Extension CSS files go here. Remove or add as needed. -->
-  <link rel="stylesheet" href="lib/deck.js/extensions/goto/deck.goto.css">
-  <link rel="stylesheet" href="lib/deck.js/extensions/menu/deck.menu.css">
   <link rel="stylesheet" href="lib/deck.js/extensions/navigation/deck.navigation.css">
   <link rel="stylesheet" href="lib/deck.js/extensions/status/deck.status.css">
   <link rel="stylesheet" href="lib/deck.js/extensions/hash/deck.hash.css">
   <link rel="stylesheet" href="lib/deck.js/extensions/scale/deck.scale.css">
 
-  <!-- Style theme. More available in /themes/style/ or create your own. -->
-  <link rel="stylesheet" href="lib/deck.js/themes/style/swiss.css">
+  <link rel="stylesheet" href="style.css">
 
   <!-- Transition theme. More available in /themes/transition/ or create your own. -->
   <link rel="stylesheet" href="lib/deck.js/themes/transition/horizontal-slide.css">
 
   <!-- Required Modernizr file -->
   <script src="lib/deck.js/modernizr.custom.js"></script>
+
+  <script src="//use.typekit.net/qda7hnw.js"></script>
+  <script>try{Typekit.load()}catch(e){}</script>
 </head>
 <body class="deck-container">
 
@@ -36,11 +36,1012 @@
 </section>
 
 <section class="slide">
-  <h1>Content</h1>
+  <p>Before we can understand functions, we must understand values</p>
 </section>
 
 <section class="slide">
-  <h1>Here</h1>
+  <p>Values can be atomic, such as the number forty-two</p>
+</section>
+
+<section class="slide">
+  <p>Or composite, such as the set of even integers</p>
+</section>
+
+<section class="slide">
+  <p>It’s important to realize that values, by definition, do not change</p>
+</section>
+
+<section class="slide">
+  <p>Adding 42 and 5 does not change the value of either number</p>
+</section>
+
+<section class="slide">
+  <p>Likewise, adding 5 to the set of even integers has no effect on either value</p>
+</section>
+
+<section class="slide">
+  <p>So what are functions?</p>
+</section>
+
+<section class="slide">
+  <p>Two types: “pure” and “impure”
+</section>
+
+<section class="slide">
+  <p>Pure functions describe relationships between values</p>
+</section>
+
+<section class="slide">
+  <p>Sine, cosine, and tangent<br>
+     describe the relationships<br>
+     between angles and sides<br>
+     of right-angled triangles</p>
+</section>
+
+<section class="slide">
+  <p>Pure functions have several useful properties…</p>
+</section>
+
+<section class="slide">
+  <p>Deterministic</p>
+  <ul class="minor">
+    <li>easy to reason about</li>
+    <li>easy to unit test</li>
+    <li>memoizable</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <pre><code class="clojure"><span class="comment">; (g x) equivalent to (f x)</span>
+<span class="comment">; caching saves computation</span>
+(def g (memoize f))
+</pre></code>
+</section>
+
+<section class="slide">
+  <p>Referentially transparent</p>
+  <ul class="minor">
+    <li>optimizable: an expression can be replaced by its value, potentially at compile time</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <pre><code class="clojure">(every? odd? [1 2 3])
+<span class="comment">; has no side effects;</span>
+<span class="comment">; can be simplified to</span>
+false
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>No side effects</p>
+  <ul class="minor">
+    <li>allows parallel execution (multi-core processors are ubiquitous)</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="haskell">qs :: Ord a =&gt; [a] -&gt; [a]
+qs []     = []
+qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
+    <span class="keyword">where</span>
+        lesser  = filter (< p) xs
+        greater = filter (>= p) xs
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Higher-order functions take and/or return functions</p>
+</section>
+
+<section class="slide">
+  <p>Higher-order functions have many uses…</p>
+</section>
+
+<section class="slide">
+  <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; transform a collection</span>
+<span class="prompt">&gt;</span> (map count ["abc" [1 2]])
+(3 2)
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; filter a collection</span>
+<span class="prompt">&gt;</span> (filter even? [1 2 3 4 5])
+(2 4)</code></pre>
+</section>
+
+<section class="slide">
+  <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; reduce a collection</span>
+<span class="prompt">&gt;</span> (reduce * [1 2 3 4 5])
+120
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre><code class="clojure"><span class="prompt">&gt;</span> nums
+[4 -2 7 1]
+<span class="prompt">&gt;</span>
+<span class="prompt">&gt;</span> <span class="comment">; apply function to list</span>
+<span class="prompt">&gt;</span> (apply max nums)
+7
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; function composition</span>
+<span class="prompt">&gt;</span> (def odd? (complement even?))
+#'user/odd?
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; partial application</span>
+<span class="prompt">&gt;</span> (def non-empty
+   (partial remove empty?))
+#'user/non-empty
+<span class="prompt">&gt;</span> (non-empty ["ab" "" "c"])
+("ab" "c")
+</code></pre>
+</section>
+
+<section class="slide">
+  <h1>Imperative versus declarative</h1>
+</section>
+
+<section class="slide">
+  <p>Imperative code describes <em>how</em> a computation should be performed</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="comment">// double each num in nums</span>
+<span class="keyword">function</span> doubleAll(nums) {
+  <span class="keyword">var</span> res = [];
+  <span class="keyword">var</span> idx = 0;
+  <span class="keyword">while</span> (idx &lt; nums.length) {
+    res.push(<span class="number">2</span> * nums[idx++]);
+  }
+  <span class="keyword">return</span> res;
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Declarative code describes the flow of data through a program</p>
+</section>
+
+<section class="slide">
+  <pre><code class="clojure"><span class="comment">; (def double (partial * 2))</span>
+
+<span class="comment">;; double each num in nums</span>
+(map double nums)
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Imperative code tends to mix together the <em>what</em> and the <em>how</em></p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript highlighted"><span class="highlight comment">// enumeration</span>
+<span class="keyword">function</span> doubleAll(nums) {
+  <span class="keyword">var</span> res = [];
+  <span class="highlight"><span class="keyword">var</span> idx = 0;</span>
+  <span class="highlight"><span class="keyword">while</span> (idx &lt; nums.length) {</span>
+    res.push(<span class="number">2</span> * <span class="highlight">nums[idx++]</span>);
+  <span class="highlight">}</span>
+  <span class="keyword">return</span> res;
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript highlighted"><span class="highlight comment">// accumulation</span>
+<span class="keyword">function</span> doubleAll(nums) {
+  <span class="highlight"><span class="keyword">var</span> res = [];</span>
+  <span class="keyword">var</span> idx = 0;
+  <span class="keyword">while</span> (idx &lt; nums.length) {
+    <span class="highlight">res.push(</span><span class="number">2</span> * nums[idx++]<span class="highlight">);</span>
+  }
+  <span class="highlight"><span class="keyword">return</span> res;</span>
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript highlighted"><span class="highlight comment">// transformation</span>
+<span class="keyword">function</span> doubleAll(nums) {
+  <span class="keyword">var</span> res = [];
+  <span class="keyword">var</span> idx = 0;
+  <span class="keyword">while</span> (idx &lt; nums.length) {
+    res.push(<span class="highlight"><span class="number">2</span> *</span> nums[idx++]);
+  }
+  <span class="keyword">return</span> res;
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <h1>Lists are powerful</h1>
+</section>
+
+<section class="slide">
+  <p>A Lisp program is a list which evaluates to its value</p>
+</section>
+
+<section class="slide">
+  <blockquote cite="http://bc.tech.coop/blog/060224.html">
+    <p>Lisp is the most important<br>idea in computer science</p>
+    <footer>Alan Kay</footer>
+  </blockquote>
+</section>
+
+<!-- TODO: mention that Lisps have very little syntax -->
+
+<section class="slide">
+  <p>Lists are so common that most languages offer literal syntax</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>But not all sequences can be represented in this manner</p>
+</section>
+
+<section class="slide">
+  <p>How can one represent the sequence of natural numbers, say, in a program?</p>
+</section>
+
+<section class="slide">
+  <p>Three operations must be supported…</p>
+</section>
+
+<section class="slide">
+  <p>Getting the <code>first</code> element</p>
+</section>
+
+<section class="slide">
+  <p>Getting the <code>rest</code> of the elements</p>
+</section>
+
+<section class="slide">
+  <p>Prepending an element (<code>cons</code>)</p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> <span class="ctor">LazySeq</span>(iter) {
+  <span class="keyword">this</span>.iter = iter;
+  <span class="keyword">this</span>.state = {};
+  <span class="keyword">this</span>.state.first = <span class="keyword">this</span>.state;
+  <span class="keyword">this</span>.state.rest = <span class="keyword">this</span>.state;
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = <span class="keyword">new</span> <span class="ctor">LazySeq</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]);
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> seq.first()
+TypeError: Object #&lt;LazySeq&gt; has no method "first"
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="ctor">LazySeq</span>.prototype.first = <span class="keyword">function</span>() {
+  <span class="keyword">if</span> (<span class="keyword">this</span>.state.first === <span class="keyword">this</span>.state) {
+    <span class="keyword">this</span>.state.first = <span class="keyword">this</span>.iter[<span class="number">0</span>];
+  }
+  <span class="keyword">return</span> <span class="keyword">this</span>.state.first;
+};
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="ctor">LazySeq</span>.prototype.rest = <span class="keyword">function</span>() {
+  <span class="keyword">if</span> (<span class="keyword">this</span>.state.rest === <span class="keyword">this</span>.state) {
+    <span class="keyword">this</span>.state.rest = <span class="keyword">this</span>.iter.slice(<span class="number">1</span>);
+  }
+  <span class="keyword">return</span> <span class="keyword">this</span>.state.rest;
+};
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> seq.first()
+<span class="number">1</span>
+<span class="prompt">&gt;</span> seq.rest()
+[<span class="number">2</span>,<span class="number">3</span>]
+</code></pre>
+</section>
+
+<section class="slide">
+  <h1>Making <code><span class="ctor">LazySeq</span></code> lazy</h1>
+</section>
+
+<section class="slide">
+  <p>First, a couple of helper functions…</p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> first(iter) {
+  <span class="keyword">return</span> iter <span class="keyword">instanceof</span> <span class="ctor">LazySeq</span> ?
+         iter.first() : iter[<span class="number">0</span>];
+}
+
+<span class="keyword">function</span> rest(iter) {
+  <span class="keyword">return</span> iter <span class="keyword">instanceof</span> <span class="ctor">LazySeq</span> ?
+         iter.rest() : iter.slice(<span class="number">1</span>);
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript highlighted"><span class="ctor">LazySeq</span>.prototype.first = <span class="keyword">function</span>() {
+  <span class="keyword">if</span> (<span class="keyword">this</span>.state.first === <span class="keyword">this</span>.state) {
+    <span class="keyword">this</span>.state.first = <span class="highlight">first(<span class="keyword">this</span>.iter())</span>;
+  }
+  <span class="keyword">return</span> <span class="keyword">this</span>.state.first;
+};
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript highlighted"><span class="ctor">LazySeq</span>.prototype.rest = <span class="keyword">function</span>() {
+  <span class="keyword">if</span> (<span class="keyword">this</span>.state.rest === <span class="keyword">this</span>.state) {
+    <span class="keyword">this</span>.state.rest = <span class="highlight">rest(<span class="keyword">this</span>.iter())</span>;
+  }
+  <span class="keyword">return</span> <span class="keyword">this</span>.state.rest;
+};
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Now we have something interesting…</p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = <span class="keyword">new</span> <span class="ctor">LazySeq</span>()
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> seq.state.first = <span class="number">1</span>
+<span class="number">1</span>
+<span class="prompt">&gt;</span> seq.state.rest = seq
+{ iter: <span class="literal undefined">undefined</span>,
+  state: { first: <span class="number">1</span>, rest: [Circular] } }
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> first(seq)
+<span class="number">1</span>
+<span class="prompt">&gt;</span> first(rest(seq))
+<span class="number">1</span>
+<span class="prompt">&gt;</span> first(rest(rest(seq)))
+<span class="number">1</span>
+<span class="prompt">&gt;</span> first(rest(rest(rest(seq))))
+<span class="number">1</span>
+<span class="prompt">&gt;</span> first(rest(rest(rest(rest(seq)))))
+<span class="number">1</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>An infinite sequences of ones!</p>
+</section>
+
+<section class="slide">
+  <p>To create more interesting sequences, we need one more function</p>
+</section>
+
+<section class="slide">
+  <p><code>cons</code> is the secret sauce,<br>and it’s deceptively simple</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="keyword">function</span> cons(x, seq) {
+  <span class="keyword">var</span> ls = <span class="keyword">new</span> <span class="ctor">LazySeq</span>();
+  ls.state.first = x;
+  ls.state.rest = seq;
+  <span class="keyword">return</span> ls;
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = cons(<span class="number">1</span>, cons(<span class="number">2</span>, cons(<span class="number">3</span>, [])))
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> first(seq)
+<span class="number">1</span>
+<span class="prompt">&gt;</span> first(rest(seq))
+<span class="number">2</span>
+<span class="prompt">&gt;</span> first(rest(rest(seq)))
+<span class="number">3</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>We can now define a recursive function which returns an infinite sequence of integers</p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> range(start) {
+  <span class="keyword">return</span> cons(start, <span class="keyword">new</span> <span class="ctor">LazySeq</span>(function() {
+    <span class="keyword">return</span> range(start + <span class="number">1</span>);
+  }));
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = range(<span class="number">42</span>)
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> first(seq)
+<span class="number">42</span>
+<span class="prompt">&gt;</span> first(rest(seq))
+<span class="number">43</span>
+<span class="prompt">&gt;</span> first(rest(rest(seq)))
+<span class="number">44</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Can higher-order functions be applied to lazy sequences?</p>
+</section>
+
+<section class="slide">
+  <h1>Yes!</h1>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> map(f, seq) {
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="ctor">LazySeq</span>(<span class="keyword">function</span>() {
+    <span class="keyword">return</span> cons(f(first(seq)),
+                map(f, rest(seq)));
+  });
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Let’s test it…</p>
+</section>
+
+<section class="slide">
+  <p>First, let’s define <code>product</code></p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> product() {
+  <span class="keyword">var</span> args = [].slice.call(arguments);
+  <span class="keyword">return</span> args.length == <span class="number">0</span> ? <span class="number">1</span> :
+    first(args) * apply(product, rest(args));
+}
+
+<span class="keyword">function</span> apply(f, args) {
+  <span class="keyword">return</span> f.apply(<span class="literal">null</span>, args);
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>… and <code>partial</code></p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> partial(f) {
+  <span class="keyword">var</span> args = [].slice.call(arguments, <span class="number">1</span>);
+  <span class="keyword">return</span> <span class="keyword">function</span>() {
+    <span class="keyword">return</span> apply(f,
+      args.concat([].slice.call(arguments)));
+  };
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Now we can confirm that <code>map</code> works as expected</p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = map(partial(product, <span class="number">3</span>), range(<span class="number">0</span>))
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> first(seq)
+<span class="number">0</span>
+<span class="prompt">&gt;</span> first(rest(seq))
+<span class="number">3</span>
+<span class="prompt">&gt;</span> first(rest(rest(seq)))
+<span class="number">6</span>
+<span class="prompt">&gt;</span> first(rest(rest(rest(seq))))
+<span class="number">9</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = map(partial(product, <span class="number">10</span>), range(<span class="number">0</span>))
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> first(seq)
+<span class="number">0</span>
+<span class="prompt">&gt;</span> first(rest(seq))
+<span class="number">10</span>
+<span class="prompt">&gt;</span> first(rest(rest(seq)))
+<span class="number">20</span>
+<span class="prompt">&gt;</span> first(rest(rest(rest(seq))))
+<span class="number">30</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Next up: <code>filter</code></p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> filter(pred, seq) {
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="ctor">LazySeq</span>(<span class="keyword">function</span>() {
+    <span class="keyword">return</span> pred(first(seq)) ?
+      cons(first(seq), filter(pred, rest(seq))) :
+      filter(pred, rest(seq));
+  });
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">function</span> isEven(n) { <span class="keyword">return</span> n % <span class="number">2</span> == <span class="number">0</span> }
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> <span class="keyword">var</span> seq = filter(isEven, range(<span class="number">0</span>))
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> first(seq)
+<span class="number">0</span>
+<span class="prompt">&gt;</span> first(rest(seq))
+<span class="number">2</span>
+<span class="prompt">&gt;</span> first(rest(rest(seq)))
+<span class="number">4</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Now we can define other functions in terms of <code>map</code> and <code>filter</code></p>
+</section>
+
+<section class="slide">
+  <p><code>distinct</code>, for example</p>
+</section>
+
+<section class="slide">
+  <p>We’ll need to maintain a set of the values we encounter as we traverse the sequence</p>
+</section>
+
+<section class="slide">
+  <h1>Actually, we don’t!</h1>
+  <p>This was my Lisp epiphany</p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> distinct(seq) {
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="ctor">LazySeq</span>(<span class="keyword">function</span>() {
+    <span class="keyword">return</span> cons(first(seq),
+                distinct(remove(partial(equal, first(seq)),
+                                rest(seq))));
+  });
+}
+
+<span class="keyword">function</span> equal(a, b) {
+  <span class="keyword">return</span> a === b;
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> remove(pred, seq) {
+  <span class="keyword">return</span> filter(complement(pred), seq);
+}
+
+<span class="keyword">function</span> complement(f) {
+  <span class="keyword">return</span> <span class="keyword">function</span>() {
+    <span class="keyword">return</span> !apply(f, arguments);
+  };
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <h1>Metaprogramming</h1>
+</section>
+
+<section class="slide">
+  <blockquote cite="http://en.wikipedia.org/wiki/Metaprogramming">
+    <p>Metaprogramming is the writing<br>
+       of computer programs that write<br>
+       or manipulate other programs<br>
+       (or themselves) as their data</p>
+    <footer>Wikipedia</footer>
+  </blockquote>
+</section>
+
+<section class="slide">
+  <p>Let’s revisit <code>range</code>…</p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> range(start) {
+  <span class="keyword">return</span> cons(start, <span class="keyword">new</span> <span class="ctor">LazySeq</span>(function() {
+    <span class="keyword">return</span> range(start + <span class="number">1</span>);
+  }));
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <p><code>range</code> actually has four modes:</p>
+  <ol>
+    <li><code>range()</code></li>
+    <li><code>range(end)</code></li>
+    <li><code>range(start, end)</code></li>
+    <li><code>range(start, end, step)</code></li>
+  </ol>
+</section>
+
+<section class="slide">
+  <p>The typical solution is to juggle arguments in the function body</p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> range() {
+  <span class="keyword">var</span> arity = arguments.length;
+  <span class="keyword">var</span> start = <span class="number">0</span>, end = <span class="number">Infinity</span>, step = <span class="number">1</span>;
+  <span class="keyword">switch</span> (<span class="literal">true</span>) {
+    <span class="keyword">case</span> arity == <span class="number">1</span>: end   = arguments[<span class="number">0</span>]; <span class="keyword">break</span>;
+    <span class="keyword">case</span> arity == <span class="number">2</span>: start = arguments[<span class="number">0</span>];
+                     end   = arguments[<span class="number">1</span>]; <span class="keyword">break</span>;
+    <span class="keyword">case</span> arity &gt;= <span class="number">3</span>: start = arguments[<span class="number">0</span>];
+                     end   = arguments[<span class="number">1</span>];
+                     step  = arguments[<span class="number">2</span>];
+  }
+  <span class="comment">// ...</span>
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>The main problem with this approach is that we’ll end up writing this code for each function with multiple modes</p>
+</section>
+
+<section class="slide">
+  <p>Instead, let’s define a higher-order function which takes a list of functions as input and returns a function which, when called, applies the appropriate function to its arguments and returns the result</p>
+</section>
+
+<section class="slide">
+  <p>First, let’s look at how we hope to use it…</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="keyword">var</span> range = def([
+  <span class="keyword">function</span>() { ... },
+  <span class="keyword">function</span>(end) { ... },
+  <span class="keyword">function</span>(start, end) { ... },
+  <span class="keyword">function</span>(start, end, step) { ... }
+]);
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> def(fs) {
+  <span class="keyword">return</span> <span class="keyword">function</span>() {
+    <span class="keyword">for</span> (<span class="keyword">var</span> idx = <span class="number">0</span>; idx &lt; fs.length; idx++) {
+      <span class="keyword">if</span> (fs[idx].length == arguments.length) {
+        <span class="keyword">return</span> apply(fs[idx], arguments);
+      }
+    }
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="ctor">Error</span>(<span class="string">"Wrong number of args"</span>);
+  };
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Now, the default values can be set very naturally</p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="keyword">var</span> range = def([
+  <span class="keyword">function</span>() {           <span class="keyword">return</span> range(<span class="number">Infinity</span>);      },
+  <span class="keyword">function</span>(end) {        <span class="keyword">return</span> range(<span class="number">0</span>, end);        },
+  <span class="keyword">function</span>(start, end) { <span class="keyword">return</span> range(start, end, <span class="number">1</span>); },
+  <span class="keyword">function</span>(start, end, step) {
+    <span class="comment">// ...</span>
+  }
+]);
+</code></pre>
+</section>
+
+<section class="slide">
+  <h1>Lisp is incredible</h1>
+</section>
+
+<section class="slide">
+  <h1>JavaScript is ubiquitous</h1>
+</section>
+
+<section class="slide">
+  <h1>Lisp is incredible</h1>
+</section>
+
+<section class="slide">
+  <h1>JavaScript is ubiquitous</h1>
+</section>
+
+<section class="slide">
+  <h1>Lisp is incredible</h1>
+</section>
+
+<section class="slide">
+  <h1>JavaScript is ubiquitous</h1>
+</section>
+
+<section class="slide">
+  <h1>Introducing…</h1>
+</section>
+
+<section class="slide">
+  <h1><img alt="Rich" src="http://cl.ly/image/182r0E39390J/logo@2x.png"></h1>
+</section>
+
+<section class="slide">
+  <h1>JavaScript’s bad parts</h1>
+</section>
+
+<section class="slide">
+  <h1>Confused type system</h1>
+</section>
+
+<section class="slide">
+  <p><code><span class="keyword">typeof</span></code></p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">typeof</span> <span class="string">"abc"</span>
+<span class="string">"string"</span>
+<span class="prompt">&gt;</span> <span class="keyword">typeof</span> <span class="keyword">new</span> <span class="ctor">String</span>(<span class="string">"abc"</span>)
+<span class="string">"object"</span>
+<span class="prompt">&gt;</span> <span class="keyword">typeof</span> <span class="literal undefined">undefined</span>
+<span class="string">"undefined"</span>
+<span class="prompt">&gt;</span> <span class="keyword">typeof</span> <span class="literal">null</span>
+<span class="string">"object"</span>
+<span class="prompt">&gt;</span> <span class="keyword">typeof</span> []
+<span class="string">"object"</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p><del><code><span class="keyword">typeof</span></code></del><br>
+     <ins><code><span class="keyword">instanceof</span></code></ins></p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">new</span> <span class="ctor">String</span>(<span class="string">"abc"</span>) <span class="keyword">instanceof</span> <span class="ctor">String</span>
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> <span class="string">"abc"</span> <span class="keyword">instanceof</span> <span class="ctor">String</span>
+<span class="literal">false</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p><del><code><span class="keyword">typeof</span></code></del><br>
+     <del><code><span class="keyword">instanceof</span></code></del><br>
+     <ins><code>???</code></ins></p>
+</section>
+
+<section class="slide">
+  <p>It turns out there is one reliable approach…</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="ctor">Object</span>.prototype.toString.call([])
+<span class="string">"[object Array]"</span>
+<span class="prompt">&gt;</span> <span class="ctor">Object</span>.prototype.toString.call(<span class="literal">null</span>)
+<span class="string">"[object Null]"</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>… but it only works for built-in types</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">function</span> <span class="ctor">Foo</span>() {}
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> <span class="keyword">var</span> foo = <span class="keyword">new</span> <span class="ctor">Foo</span>()
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> <span class="ctor">Object</span>.prototype.toString.call(foo)
+<span class="string">"[object Object]"</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p><del><code><span class="keyword">typeof</span></code></del><br>
+     <del><code><span class="keyword">instanceof</span></code></del><br>
+     <del><code><span class="ctor">Object</span>.prototype.toString.call</code></del>
+     <ins><code>???</code></ins></p>
+</section>
+
+<section class="slide">
+  <h1>No sets or maps*</h1>
+  <aside>* coming in ES6</aside>
+</section>
+
+<section class="slide">
+  <p>We make do with objects</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> var set = {}
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> set[<span class="string">"foo"</span>] = <span class="number">1</span>
+<span class="number">1</span>
+<span class="prompt">&gt;</span> <span class="string">"foo"</span> <span class="keyword">in</span> set
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> <span class="string">"bar"</span> <span class="keyword">in</span> set
+<span class="literal">false</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>But they have baggage</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="string">"constructor"</span> <span class="keyword">in</span> set
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> <span class="string">"toString"</span> <span class="keyword">in</span> set
+<span class="literal">true</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Again, there’s a workaround</p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="ctor">Object</span>.prototype.hasOwnProperty.call(set, <span class="string">"constructor"</span>)
+<span class="literal">false</span>
+<span class="prompt">&gt;</span> <span class="ctor">Object</span>.prototype.hasOwnProperty.call(set, <span class="string">"foo"</span>)
+<span class="literal">true</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>But we can still only have sets of strings</p>
+</section>
+
+<section class="slide">
+  <h1>No notion of value</h1>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>] == [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]
+<span class="literal">false</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <h1>Broken equality operators*</h1>
+  <aside>* despite having both <code>==</code> and <code>===</code></aside>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> [<span class="number">42</span>] == [<span class="number">42</span>]
+<span class="literal">false</span>
+<span class="prompt">&gt;</span> [<span class="number">42</span>] == <span class="number">42</span>
+<span class="literal">true</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="number">0</span> == <span class="number">-0</span>
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> <span class="number">0</span> === <span class="number">-0</span>
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> <span class="number">1</span> / <span class="number">0</span> == <span class="number">1</span> / <span class="number">-0</span>
+<span class="literal">false</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="literal">NaN</span> == <span class="literal">NaN</span>
+<span class="literal">false</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>JavaScript needs a <code>====</code> operator</p>
+</section>
+
+<section class="slide">
+  <h1>Verbose function syntax</h1>
+</section>
+
+<section class="slide">
+  <pre><code class="clojure"><span class="comment">;; Clojure</span>
+(defn identity [x] x)
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre><code class="haskell"><span class="comment">-- Haskell</span>
+identity a = a
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="comment">// JavaScript</span>
+<span class="keyword">function</span> identity(x) { <span class="keyword">return</span> x; }
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Acceptable type checking via a single function</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">String</span>, <span class="string">"abc"</span>)
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">String</span>, <span class="keyword">new</span> <span class="ctor">String</span>(<span class="string">"abc"</span>))
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Array</span>, [])
+<span class="literal">true</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Works for user-defined types</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Foo</span>, foo)
+<span class="literal">true</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Handles inheritance</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> err = <span class="keyword">new</span> <span class="ctor">TypeError</span>()
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">TypeError</span>, err)
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Error</span>, err)
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Object</span>, err)
+<span class="literal">true</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> set = $$.<span class="ctor">Set</span>([<span class="string">"foo"</span>, <span class="number">42</span>])
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"contains?"</span>](set, <span class="number">42</span>)
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"contains?"</span>](set, <span class="string">"42"</span>)
+<span class="literal">false</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Lends itself to partial application</p>
+</section>
+
+<section class="slide">
+  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> isArray = $$[<span class="string">"partial"</span>]($$[<span class="string">"is?"</span>], <span class="ctor">Array</span>)
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> isArray([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> isArray(<span class="string">"abc"</span>)
+<span class="literal">false</span>
+</code></pre>
 </section>
 
 <!-- End slides. -->
@@ -49,23 +1050,13 @@
 <!-- Begin extension snippets. Add or remove as needed. -->
 
 <!-- deck.navigation snippet -->
-<a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
-<a href="#" class="deck-next-link" title="Next">&#8594;</a>
+<a href="#" class="deck-prev-link" title="Previous">&#9664;</a>
+<a href="#" class="deck-next-link" title="Next">&#9654;</a>
 
 <!-- deck.status snippet -->
 <p class="deck-status">
-  <span class="deck-status-current"></span>
-  /
-  <span class="deck-status-total"></span>
+  <span class="deck-status-current">1</span> / <span class="deck-status-total">1</span>
 </p>
-
-<!-- deck.goto snippet -->
-<form action="." method="get" class="goto-form">
-  <label for="goto-slide">Go to slide:</label>
-  <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
-  <datalist id="goto-datalist"></datalist>
-  <input type="submit" value="Go">
-</form>
 
 <!-- deck.hash snippet -->
 <a href="." title="Permalink to this slide" class="deck-permalink">#</a>
@@ -80,17 +1071,10 @@
 <!-- Extension JS files. Add or remove as needed. -->
 <script src="lib/deck.js/core/deck.core.js"></script>
 <script src="lib/deck.js/extensions/hash/deck.hash.js"></script>
-<script src="lib/deck.js/extensions/menu/deck.menu.js"></script>
-<script src="lib/deck.js/extensions/goto/deck.goto.js"></script>
 <script src="lib/deck.js/extensions/status/deck.status.js"></script>
 <script src="lib/deck.js/extensions/navigation/deck.navigation.js"></script>
 <script src="lib/deck.js/extensions/scale/deck.scale.js"></script>
 
-<!-- Initialize the deck. You can put this in an external file if desired. -->
-<script>
-  $(function() {
-    $.deck('.slide');
-  });
-</script>
+<script>$.deck('.slide')</script>
 </body>
 </html>

@@ -1,0 +1,153 @@
+.deck-container {
+  background: #fff;
+  font: 600 1.75em/1.25 "proxima-nova", sans-serif;
+  text-rendering: optimizeLegibility;
+  color: #000;
+}
+.deck-container .slide {
+  background: #fff;
+  padding: 0 96px 0 128px !important;
+}
+.deck-container .slide + .slide h1 {
+  top: 33%;
+  font-size: 96px;
+}
+.deck-container .slide h1 > code {
+  font-family: inherit;
+}
+.deck-container .slide h1 > img {
+  margin-bottom: 0;
+}
+.deck-container .slide h1 + p {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 40px;
+}
+.deck-container .slide ol {
+  margin-left: 0;
+  font-size: 64px; /* FIXME: increase font-size for everything */
+  list-style: none;
+}
+.deck-container .slide p {
+  font-size: 80px;
+}
+.deck-container .slide p:first-child {
+  margin-top: 96px;
+}
+.deck-container .slide p > code {
+  font-weight: 900;
+  font-family: inherit;
+}
+.deck-container .slide pre {
+  border: none;
+  padding: 0;
+  font-size: 64px;
+}
+.deck-container .slide pre.lengthy {
+  margin-right: -96px;
+  font-size: 40px;
+}
+.deck-container .slide pre:first-child {
+  margin-top: 96px;
+}
+.deck-container .slide pre > code {
+  background: none;
+  font-weight: normal;
+  color: #222;
+}
+.deck-container .slide pre > code.highlighted {
+  color: #ccc;
+}
+.deck-container .slide pre > code.highlighted span {
+  color: inherit;
+}
+.deck-container .slide pre > code .highlight {
+  color: #000 !important;
+}
+.deck-container .slide pre > code .comment {
+  color: #ccc;
+}
+.deck-container .slide pre > code .ctor {
+  color: #008080;
+}
+.deck-container .slide pre > code .keyword {
+  font-weight: bold;
+}
+.deck-container .slide pre > code .literal {
+  color: #408000;
+}
+.deck-container .slide pre > code .literal.undefined {
+  color: #999;
+}
+.deck-container .slide pre > code .number {
+  color: #008080;
+}
+.deck-container .slide pre > code .prompt {
+  color: #ccc;
+}
+.deck-container .slide pre > code .string {
+  color: #800000;
+}
+.deck-container .slide aside {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 96px;
+  text-align: center;
+}
+.deck-container .slide blockquote {
+  font-size: 2em;
+  font-style: italic;
+  color: #000;
+}
+.deck-container .slide blockquote footer:before {
+  content: "\2014\0020";
+}
+.deck-container .slide del {
+  position: relative;
+  text-decoration: none;
+}
+.deck-container .slide del:after {
+  position: absolute;
+  top: 50%;
+  left: -3px;
+  right: -3px;
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: #c00;
+  content: "";
+}
+.deck-container .slide ::selection {
+  background: #c00;
+  color: #fff;
+}
+.deck-container .deck-prev-link,
+.deck-container .deck-next-link {
+  background: #ddd;
+  line-height: 36px;
+  font-family: serif;
+}
+.deck-container .deck-prev-link:after,
+.deck-container .deck-next-link:before {
+  content: "\2009";
+}
+.deck-container .deck-prev-link,
+.deck-container .deck-next-link {
+  color: #fff;
+}
+.deck-container .deck-prev-link:hover,
+.deck-container .deck-prev-link:focus,
+.deck-container .deck-next-link:hover,
+.deck-container .deck-next-link:focus {
+  background: #c00;
+}
+.deck-container .deck-status {
+  right: 24px;
+  bottom: 16px;
+  font-size: 24px;
+  color: #ccc;
+}
