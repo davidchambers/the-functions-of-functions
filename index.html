@@ -24,10 +24,8 @@
   <!-- Required Modernizr file -->
   <script src="lib/deck.js/modernizr.custom.js"></script>
 
-  <!--
   <script src="//use.typekit.net/qda7hnw.js"></script>
   <script>try{Typekit.load()}catch(e){}</script>
-  -->
 </head>
 <body class="deck-container">
 
@@ -81,48 +79,44 @@
 </section>
 
 <section class="slide">
-  <p>Pure functions have several useful properties…</p>
+  <p>The most important quality of pure functions is referential transparency</p>
 </section>
 
 <section class="slide">
-  <p>Deterministic</p>
-  <ul class="minor">
-    <li>easy to reason about</li>
-    <li>easy to unit test</li>
-    <li>memoizable</li>
-  </ul>
+  <blockquote cite="http://en.wikipedia.org/wiki/Referential_transparency_(computer_science)">
+    <p>An expression is said to be referentially transparent if it can be replaced with its value without changing the [program’s] behavior</p>
+    <footer>Wikipedia</footer>
+  </blockquote>
 </section>
 
 <section class="slide">
+  <p>Referentially transparent functions are easier to reason about, as one needn’t mentally construct a program’s state</p>
+</section>
+
+<section class="slide">
+  <p>Referentially transparent functions are deterministic</p>
+</section>
+
+<section class="slide">
+  <p>Deterministic functions are easy to test</p>
+</section>
+
+<section class="slide">
+  <p>Deterministic functions can be memoized</p>
   <pre><code class="clojure"><span class="comment">; (g x) equivalent to (f x)</span>
 <span class="comment">; caching saves computation</span>
 (def g (memoize f))
-</pre></code>
-</section>
-
-<section class="slide">
-  <p>Referentially transparent</p>
-  <ul class="minor">
-    <li>optimizable: an expression can be replaced by its value, potentially at compile time</li>
-  </ul>
-</section>
-
-<section class="slide">
-  <pre><code class="clojure">(every? odd? [1 2 3])
-<span class="comment">; has no side effects;</span>
-<span class="comment">; can be simplified to</span>
-false
 </code></pre>
 </section>
 
 <section class="slide">
-  <p>No side effects</p>
-  <ul class="minor">
-    <li>allows parallel execution (multi-core processors are ubiquitous)</li>
-  </ul>
+  <p>Deterministic expressions can be replaced by their values at <em>any</em> time, even compile time</p>
+  <pre><code class="clojure">(every? odd? [<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>]) <span class="comment">; can be replaced by false</span>
+</code></pre>
 </section>
 
 <section class="slide">
+  <p>Deterministic expressions can be executed in parallel</p>
   <pre><code class="haskell">qs :: Ord a =&gt; [a] -&gt; [a]
 qs []     = []
 qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
@@ -130,6 +124,10 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
         lesser  = filter (< p) xs
         greater = filter (>= p) xs
 </code></pre>
+</section>
+
+<section class="slide">
+  <p>Pure functions make functional programming possible; higher-order functions make it thrilling</p>
 </section>
 
 <section class="slide">
@@ -142,31 +140,31 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 
 <section class="slide">
   <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; transform a collection</span>
-<span class="prompt">&gt;</span> (map count ["abc" [1 2]])
-(3 2)
+<span class="prompt">&gt;</span> (map count [<span class="string">"abc"</span> {:x <span class="number">0</span>} [<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span>]])
+(<span class="number">3</span> <span class="number">1</span> <span class="number">4</span>)
 </code></pre>
 </section>
 
 <section class="slide">
   <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; filter a collection</span>
-<span class="prompt">&gt;</span> (filter even? [1 2 3 4 5])
-(2 4)</code></pre>
+<span class="prompt">&gt;</span> (filter even? [<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span>])
+(<span class="number">2</span> <span class="number">4</span>)</code></pre>
 </section>
 
 <section class="slide">
   <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; reduce a collection</span>
-<span class="prompt">&gt;</span> (reduce * [1 2 3 4 5])
-120
+<span class="prompt">&gt;</span> (reduce * [<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span>])
+<span class="number">120</span>
 </code></pre>
 </section>
 
 <section class="slide">
   <pre><code class="clojure"><span class="prompt">&gt;</span> nums
-[4 -2 7 1]
+[<span class="number">4</span> <span class="number">-2</span> <span class="number">7</span> <span class="number">1</span>]
 <span class="prompt">&gt;</span>
 <span class="prompt">&gt;</span> <span class="comment">; apply function to list</span>
 <span class="prompt">&gt;</span> (apply max nums)
-7
+<span class="number">7</span>
 </code></pre>
 </section>
 

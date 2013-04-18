@@ -26,9 +26,12 @@
   text-align: center;
   font-size: 40px;
 }
-.deck-container .slide ol {
+.deck-container .slide ol,
+.deck-container .slide ul {
   margin-left: 0;
   font-size: 64px;
+}
+.deck-container .slide ol {
   list-style: none;
 }
 .deck-container .slide li {
