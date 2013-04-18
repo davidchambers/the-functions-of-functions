@@ -1,6 +1,6 @@
 .deck-container {
   background: #fff;
-  font: 600 1.75em/1.25 "proxima-nova", sans-serif;
+  font: 600 40px/1.2 "proxima-nova", sans-serif;
   text-rendering: optimizeLegibility;
   color: #000;
 }
@@ -28,10 +28,14 @@
 }
 .deck-container .slide ol {
   margin-left: 0;
-  font-size: 64px; /* FIXME: increase font-size for everything */
+  font-size: 64px;
   list-style: none;
 }
+.deck-container .slide li {
+  padding: 0;
+}
 .deck-container .slide p {
+  margin-bottom: 0.5em;
   font-size: 80px;
 }
 .deck-container .slide p:first-child {
@@ -42,13 +46,9 @@
   font-family: inherit;
 }
 .deck-container .slide pre {
+  margin-right: -96px;
   border: none;
   padding: 0;
-  font-size: 64px;
-}
-.deck-container .slide pre.lengthy {
-  margin-right: -96px;
-  font-size: 40px;
 }
 .deck-container .slide pre:first-child {
   margin-top: 96px;

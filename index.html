@@ -24,8 +24,10 @@
   <!-- Required Modernizr file -->
   <script src="lib/deck.js/modernizr.custom.js"></script>
 
+  <!--
   <script src="//use.typekit.net/qda7hnw.js"></script>
   <script>try{Typekit.load()}catch(e){}</script>
+  -->
 </head>
 <body class="deck-container">
 
@@ -121,7 +123,7 @@ false
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="haskell">qs :: Ord a =&gt; [a] -&gt; [a]
+  <pre><code class="haskell">qs :: Ord a =&gt; [a] -&gt; [a]
 qs []     = []
 qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
     <span class="keyword">where</span>
@@ -177,29 +179,36 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 
 <section class="slide">
   <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; partial application</span>
-<span class="prompt">&gt;</span> (def non-empty
-   (partial remove empty?))
+<span class="prompt">&gt;</span> (def non-empty (partial remove empty?))
 #'user/non-empty
-<span class="prompt">&gt;</span> (non-empty ["ab" "" "c"])
-("ab" "c")
+<span class="prompt">&gt;</span> (non-empty [<span class="string">""</span> <span class="literal">nil</span> <span class="string">"ab"</span> [] <span class="string">"c"</span>])
+(<span class="string">"ab"</span> <span class="string">"c"</span>)
 </code></pre>
 </section>
 
 <section class="slide">
-  <h1>Imperative versus declarative</h1>
+  <p>Higher-order functions<br>lead to declarative code</p>
 </section>
 
 <section class="slide">
-  <p>Imperative code describes <em>how</em> a computation should be performed</p>
+  <h1>What <em>is</em> declarative code?</h1>
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="comment">// double each num in nums</span>
-<span class="keyword">function</span> doubleAll(nums) {
+  <p>Declarative code describes <em>what</em> it does rather than <em>how</em> it does it</p>
+</section>
+
+<section class="slide">
+  <p>This is best understood by considering the alternative…</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="comment">// triple each num in nums</span>
+<span class="keyword">function</span> tripleAll(nums) {
   <span class="keyword">var</span> res = [];
-  <span class="keyword">var</span> idx = 0;
+  <span class="keyword">var</span> idx = <span class="number">0</span>;
   <span class="keyword">while</span> (idx &lt; nums.length) {
-    res.push(<span class="number">2</span> * nums[idx++]);
+    res.push(<span class="number">3</span> * nums[idx++]);
   }
   <span class="keyword">return</span> res;
 }
@@ -207,28 +216,12 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <p>Declarative code describes the flow of data through a program</p>
-</section>
-
-<section class="slide">
-  <pre><code class="clojure"><span class="comment">; (def double (partial * 2))</span>
-
-<span class="comment">;; double each num in nums</span>
-(map double nums)
-</code></pre>
-</section>
-
-<section class="slide">
-  <p>Imperative code tends to mix together the <em>what</em> and the <em>how</em></p>
-</section>
-
-<section class="slide">
   <pre><code class="javascript highlighted"><span class="highlight comment">// enumeration</span>
-<span class="keyword">function</span> doubleAll(nums) {
+<span class="keyword">function</span> tripleAll(nums) {
   <span class="keyword">var</span> res = [];
-  <span class="highlight"><span class="keyword">var</span> idx = 0;</span>
+  <span class="highlight"><span class="keyword">var</span> idx = <span class="number">0</span>;</span>
   <span class="highlight"><span class="keyword">while</span> (idx &lt; nums.length) {</span>
-    res.push(<span class="number">2</span> * <span class="highlight">nums[idx++]</span>);
+    res.push(<span class="number">3</span> * <span class="highlight">nums[idx++]</span>);
   <span class="highlight">}</span>
   <span class="keyword">return</span> res;
 }
@@ -237,11 +230,11 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 
 <section class="slide">
   <pre><code class="javascript highlighted"><span class="highlight comment">// accumulation</span>
-<span class="keyword">function</span> doubleAll(nums) {
+<span class="keyword">function</span> tripleAll(nums) {
   <span class="highlight"><span class="keyword">var</span> res = [];</span>
-  <span class="keyword">var</span> idx = 0;
+  <span class="keyword">var</span> idx = <span class="number">0</span>;
   <span class="keyword">while</span> (idx &lt; nums.length) {
-    <span class="highlight">res.push(</span><span class="number">2</span> * nums[idx++]<span class="highlight">);</span>
+    <span class="highlight">res.push(</span><span class="number">3</span> * nums[idx++]<span class="highlight">);</span>
   }
   <span class="highlight"><span class="keyword">return</span> res;</span>
 }
@@ -250,14 +243,24 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 
 <section class="slide">
   <pre><code class="javascript highlighted"><span class="highlight comment">// transformation</span>
-<span class="keyword">function</span> doubleAll(nums) {
+<span class="keyword">function</span> tripleAll(nums) {
   <span class="keyword">var</span> res = [];
-  <span class="keyword">var</span> idx = 0;
+  <span class="keyword">var</span> idx = <span class="number">0</span>;
   <span class="keyword">while</span> (idx &lt; nums.length) {
-    res.push(<span class="highlight"><span class="number">2</span> *</span> nums[idx++]);
+    res.push(<span class="highlight"><span class="number">3</span> *</span> nums[idx++]);
   }
   <span class="keyword">return</span> res;
 }
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>In declarative terms…</p>
+</section>
+
+<section class="slide">
+  <pre><code class="clojure"><span class="comment">; triple each num in nums</span>
+(map (partial * <span class="number">3</span>) nums)
 </code></pre>
 </section>
 
@@ -312,7 +315,7 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> <span class="ctor">LazySeq</span>(iter) {
+  <pre><code class="javascript"><span class="keyword">function</span> <span class="ctor">LazySeq</span>(iter) {
   <span class="keyword">this</span>.iter = iter;
   <span class="keyword">this</span>.state = {};
   <span class="keyword">this</span>.state.first = <span class="keyword">this</span>.state;
@@ -322,7 +325,7 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = <span class="keyword">new</span> <span class="ctor">LazySeq</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]);
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = <span class="keyword">new</span> <span class="ctor">LazySeq</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]);
 <span class="literal undefined">undefined</span>
 <span class="prompt">&gt;</span> seq.first()
 TypeError: Object #&lt;LazySeq&gt; has no method "first"
@@ -330,7 +333,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="ctor">LazySeq</span>.prototype.first = <span class="keyword">function</span>() {
+  <pre><code class="javascript"><span class="ctor">LazySeq</span>.prototype.first = <span class="keyword">function</span>() {
   <span class="keyword">if</span> (<span class="keyword">this</span>.state.first === <span class="keyword">this</span>.state) {
     <span class="keyword">this</span>.state.first = <span class="keyword">this</span>.iter[<span class="number">0</span>];
   }
@@ -340,7 +343,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="ctor">LazySeq</span>.prototype.rest = <span class="keyword">function</span>() {
+  <pre><code class="javascript"><span class="ctor">LazySeq</span>.prototype.rest = <span class="keyword">function</span>() {
   <span class="keyword">if</span> (<span class="keyword">this</span>.state.rest === <span class="keyword">this</span>.state) {
     <span class="keyword">this</span>.state.rest = <span class="keyword">this</span>.iter.slice(<span class="number">1</span>);
   }
@@ -366,7 +369,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> first(iter) {
+  <pre><code class="javascript"><span class="keyword">function</span> first(iter) {
   <span class="keyword">return</span> iter <span class="keyword">instanceof</span> <span class="ctor">LazySeq</span> ?
          iter.first() : iter[<span class="number">0</span>];
 }
@@ -379,7 +382,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript highlighted"><span class="ctor">LazySeq</span>.prototype.first = <span class="keyword">function</span>() {
+  <pre><code class="javascript highlighted"><span class="ctor">LazySeq</span>.prototype.first = <span class="keyword">function</span>() {
   <span class="keyword">if</span> (<span class="keyword">this</span>.state.first === <span class="keyword">this</span>.state) {
     <span class="keyword">this</span>.state.first = <span class="highlight">first(<span class="keyword">this</span>.iter())</span>;
   }
@@ -389,7 +392,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript highlighted"><span class="ctor">LazySeq</span>.prototype.rest = <span class="keyword">function</span>() {
+  <pre><code class="javascript highlighted"><span class="ctor">LazySeq</span>.prototype.rest = <span class="keyword">function</span>() {
   <span class="keyword">if</span> (<span class="keyword">this</span>.state.rest === <span class="keyword">this</span>.state) {
     <span class="keyword">this</span>.state.rest = <span class="highlight">rest(<span class="keyword">this</span>.iter())</span>;
   }
@@ -403,7 +406,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = <span class="keyword">new</span> <span class="ctor">LazySeq</span>()
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = <span class="keyword">new</span> <span class="ctor">LazySeq</span>()
 <span class="literal undefined">undefined</span>
 <span class="prompt">&gt;</span> seq.state.first = <span class="number">1</span>
 <span class="number">1</span>
@@ -414,7 +417,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> first(seq)
+  <pre><code class="javascript"><span class="prompt">&gt;</span> first(seq)
 <span class="number">1</span>
 <span class="prompt">&gt;</span> first(rest(seq))
 <span class="number">1</span>
@@ -450,7 +453,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = cons(<span class="number">1</span>, cons(<span class="number">2</span>, cons(<span class="number">3</span>, [])))
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = cons(<span class="number">1</span>, cons(<span class="number">2</span>, cons(<span class="number">3</span>, [])))
 <span class="literal undefined">undefined</span>
 <span class="prompt">&gt;</span> first(seq)
 <span class="number">1</span>
@@ -466,7 +469,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> range(start) {
+  <pre><code class="javascript"><span class="keyword">function</span> range(start) {
   <span class="keyword">return</span> cons(start, <span class="keyword">new</span> <span class="ctor">LazySeq</span>(function() {
     <span class="keyword">return</span> range(start + <span class="number">1</span>);
   }));
@@ -475,7 +478,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = range(<span class="number">42</span>)
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = range(<span class="number">42</span>)
 <span class="literal undefined">undefined</span>
 <span class="prompt">&gt;</span> first(seq)
 <span class="number">42</span>
@@ -495,7 +498,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> map(f, seq) {
+  <pre><code class="javascript"><span class="keyword">function</span> map(f, seq) {
   <span class="keyword">return</span> <span class="keyword">new</span> <span class="ctor">LazySeq</span>(<span class="keyword">function</span>() {
     <span class="keyword">return</span> cons(f(first(seq)),
                 map(f, rest(seq)));
@@ -513,7 +516,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> product() {
+  <pre><code class="javascript"><span class="keyword">function</span> product() {
   <span class="keyword">var</span> args = [].slice.call(arguments);
   <span class="keyword">return</span> args.length == <span class="number">0</span> ? <span class="number">1</span> :
     first(args) * apply(product, rest(args));
@@ -530,7 +533,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> partial(f) {
+  <pre><code class="javascript"><span class="keyword">function</span> partial(f) {
   <span class="keyword">var</span> args = [].slice.call(arguments, <span class="number">1</span>);
   <span class="keyword">return</span> <span class="keyword">function</span>() {
     <span class="keyword">return</span> apply(f,
@@ -545,7 +548,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = map(partial(product, <span class="number">3</span>), range(<span class="number">0</span>))
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = map(partial(product, <span class="number">3</span>), range(<span class="number">0</span>))
 <span class="literal undefined">undefined</span>
 <span class="prompt">&gt;</span> first(seq)
 <span class="number">0</span>
@@ -559,7 +562,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = map(partial(product, <span class="number">10</span>), range(<span class="number">0</span>))
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = map(partial(product, <span class="number">10</span>), range(<span class="number">0</span>))
 <span class="literal undefined">undefined</span>
 <span class="prompt">&gt;</span> first(seq)
 <span class="number">0</span>
@@ -577,7 +580,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> filter(pred, seq) {
+  <pre><code class="javascript"><span class="keyword">function</span> filter(pred, seq) {
   <span class="keyword">return</span> <span class="keyword">new</span> <span class="ctor">LazySeq</span>(<span class="keyword">function</span>() {
     <span class="keyword">return</span> pred(first(seq)) ?
       cons(first(seq), filter(pred, rest(seq))) :
@@ -588,7 +591,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">function</span> isEven(n) { <span class="keyword">return</span> n % <span class="number">2</span> == <span class="number">0</span> }
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">function</span> isEven(n) { <span class="keyword">return</span> n % <span class="number">2</span> == <span class="number">0</span> }
 <span class="literal undefined">undefined</span>
 <span class="prompt">&gt;</span> <span class="keyword">var</span> seq = filter(isEven, range(<span class="number">0</span>))
 <span class="literal undefined">undefined</span>
@@ -619,7 +622,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> distinct(seq) {
+  <pre><code class="javascript"><span class="keyword">function</span> distinct(seq) {
   <span class="keyword">return</span> <span class="keyword">new</span> <span class="ctor">LazySeq</span>(<span class="keyword">function</span>() {
     <span class="keyword">return</span> cons(first(seq),
                 distinct(remove(partial(equal, first(seq)),
@@ -634,7 +637,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> remove(pred, seq) {
+  <pre><code class="javascript"><span class="keyword">function</span> remove(pred, seq) {
   <span class="keyword">return</span> filter(complement(pred), seq);
 }
 
@@ -665,7 +668,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> range(start) {
+  <pre><code class="javascript"><span class="keyword">function</span> range(start) {
   <span class="keyword">return</span> cons(start, <span class="keyword">new</span> <span class="ctor">LazySeq</span>(function() {
     <span class="keyword">return</span> range(start + <span class="number">1</span>);
   }));
@@ -688,7 +691,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> range() {
+  <pre><code class="javascript"><span class="keyword">function</span> range() {
   <span class="keyword">var</span> arity = arguments.length;
   <span class="keyword">var</span> start = <span class="number">0</span>, end = <span class="number">Infinity</span>, step = <span class="number">1</span>;
   <span class="keyword">switch</span> (<span class="literal">true</span>) {
@@ -713,7 +716,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <p>First, let’s look at how we hope to use it…</p>
+  <p>First, let’s consider how we’ll use it…</p>
 </section>
 
 <section class="slide">
@@ -727,7 +730,11 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="keyword">function</span> def(fs) {
+  <p>Now, the implementation…</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="keyword">function</span> def(fs) {
   <span class="keyword">return</span> <span class="keyword">function</span>() {
     <span class="keyword">for</span> (<span class="keyword">var</span> idx = <span class="number">0</span>; idx &lt; fs.length; idx++) {
       <span class="keyword">if</span> (fs[idx].length == arguments.length) {
@@ -745,7 +752,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="keyword">var</span> range = def([
+  <pre><code class="javascript"><span class="keyword">var</span> range = def([
   <span class="keyword">function</span>() {           <span class="keyword">return</span> range(<span class="number">Infinity</span>);      },
   <span class="keyword">function</span>(end) {        <span class="keyword">return</span> range(<span class="number">0</span>, end);        },
   <span class="keyword">function</span>(start, end) { <span class="keyword">return</span> range(start, end, <span class="number">1</span>); },
@@ -904,7 +911,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="ctor">Object</span>.prototype.hasOwnProperty.call(set, <span class="string">"constructor"</span>)
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="ctor">Object</span>.prototype.hasOwnProperty.call(set, <span class="string">"constructor"</span>)
 <span class="literal">false</span>
 <span class="prompt">&gt;</span> <span class="ctor">Object</span>.prototype.hasOwnProperty.call(set, <span class="string">"foo"</span>)
 <span class="literal">true</span>
@@ -1021,7 +1028,7 @@ identity a = a
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> set = $$.<span class="ctor">Set</span>([<span class="string">"foo"</span>, <span class="number">42</span>])
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> set = $$.<span class="ctor">Set</span>([<span class="string">"foo"</span>, <span class="number">42</span>])
 <span class="literal undefined">undefined</span>
 <span class="prompt">&gt;</span> $$[<span class="string">"contains?"</span>](set, <span class="number">42</span>)
 <span class="literal">true</span>
@@ -1035,7 +1042,7 @@ identity a = a
 </section>
 
 <section class="slide">
-  <pre class="lengthy"><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> isArray = $$[<span class="string">"partial"</span>]($$[<span class="string">"is?"</span>], <span class="ctor">Array</span>)
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> isArray = $$[<span class="string">"partial"</span>]($$[<span class="string">"is?"</span>], <span class="ctor">Array</span>)
 <span class="literal undefined">undefined</span>
 <span class="prompt">&gt;</span> isArray([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])
 <span class="literal">true</span>
