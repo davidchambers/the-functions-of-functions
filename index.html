@@ -36,7 +36,7 @@
 </section>
 
 <section class="slide">
-  <p>Before we can understand functions, we must understand values</p>
+  <p>Before we can understand functions, let’s talk about values</p>
 </section>
 
 <section class="slide">
@@ -72,10 +72,7 @@
 </section>
 
 <section class="slide">
-  <p>Sine, cosine, and tangent<br>
-     describe the relationships<br>
-     between angles and sides<br>
-     of right-angled triangles</p>
+  <p>Sine, cosine, and tangent describe the relationships between angles and sides of right-angled triangles</p>
 </section>
 
 <section class="slide">
@@ -121,8 +118,8 @@
 qs []     = []
 qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
     <span class="keyword">where</span>
-        lesser  = filter (< p) xs
-        greater = filter (>= p) xs
+        lesser  = filter (&lt; p) xs
+        greater = filter (&gt;= p) xs
 </code></pre>
 </section>
 
@@ -139,49 +136,51 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; transform a collection</span>
-<span class="prompt">&gt;</span> (map count [<span class="string">"abc"</span> {:x <span class="number">0</span>} [<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span>]])
+  <p>Mapping</p>
+  <pre><code class="clojure"><span class="prompt">&gt;</span> (map count [<span class="string">"abc"</span> {:x <span class="number">0</span>} [<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span>]])
 (<span class="number">3</span> <span class="number">1</span> <span class="number">4</span>)
 </code></pre>
 </section>
 
 <section class="slide">
-  <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; filter a collection</span>
-<span class="prompt">&gt;</span> (filter even? [<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span>])
+  <p>Filtering</p>
+  <pre><code class="clojure"><span class="prompt">&gt;</span> (filter even? [<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span>])
 (<span class="number">2</span> <span class="number">4</span>)</code></pre>
 </section>
 
 <section class="slide">
-  <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; reduce a collection</span>
-<span class="prompt">&gt;</span> (reduce * [<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span>])
+  <p>Reducing</p>
+  <pre><code class="clojure"><span class="prompt">&gt;</span> (reduce * [<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span>])
 <span class="number">120</span>
 </code></pre>
 </section>
 
 <section class="slide">
-  <pre><code class="clojure"><span class="prompt">&gt;</span> nums
-[<span class="number">4</span> <span class="number">-2</span> <span class="number">7</span> <span class="number">1</span>]
-<span class="prompt">&gt;</span>
-<span class="prompt">&gt;</span> <span class="comment">; apply function to list</span>
-<span class="prompt">&gt;</span> (apply max nums)
+  <p>“Splatting” a list into positional args</p>
+  <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; nums is [4 -2 7 1]</span>
+<span class="prompt">&gt;</span> (apply max nums) <span class="comment">; (max 4 -2 7 1)</span>
 <span class="number">7</span>
 </code></pre>
 </section>
 
 <section class="slide">
-  <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; function composition</span>
-<span class="prompt">&gt;</span> (def odd? (complement even?))
-#'user/odd?
+  <p>Composing functions</p>
+  <pre><code class="clojure">(def odd? (complement even?))
 </code></pre>
 </section>
 
 <section class="slide">
-  <pre><code class="clojure"><span class="prompt">&gt;</span> <span class="comment">; partial application</span>
-<span class="prompt">&gt;</span> (def non-empty (partial remove empty?))
-#'user/non-empty
-<span class="prompt">&gt;</span> (non-empty [<span class="string">""</span> <span class="literal">nil</span> <span class="string">"ab"</span> [] <span class="string">"c"</span>])
-(<span class="string">"ab"</span> <span class="string">"c"</span>)
+  <p>Partial application</p>
+  <pre><code class="clojure">(def zero? (partial = <span class="number">0</span>))
 </code></pre>
+  <!--
+  <pre><code class="python"><span class="prompt">&gt;&gt;&gt;</span> <span class="keyword">from</span> functools <span class="keyword">import</span> partial
+<span class="prompt">&gt;&gt;&gt;</span> basetwo = partial(<span class="ctor">int</span>, base=<span class="number">2</span>)
+<span class="prompt">&gt;&gt;&gt;</span> basetwo.__doc__ = <span class="string">"Convert base 2 string to an int."</span>
+<span class="prompt">&gt;&gt;&gt;</span> basetwo(<span class="string">"10010"</span>) <span class="comment"># int("10010", base=2)</span>
+<span class="number">18</span>
+</code></pre>
+  -->
 </section>
 
 <section class="slide">
@@ -193,11 +192,20 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <p>Declarative code describes <em>what</em> it does rather than <em>how</em> it does it</p>
+  <p>A declarative expression describes <em>what</em> it does rather than <em>how</em> it does it</p>
 </section>
 
 <section class="slide">
-  <p>This is best understood by considering the alternative…</p>
+  <p>SQL is a declarative</p>
+  <pre><code class="sql"><span class="keyword">SELECT</span> *
+ <span class="keyword">FROM</span> Book
+ <span class="keyword">WHERE</span> price &gt; <span class="number">100.00</span>
+ <span class="keyword">ORDER BY</span> title;
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Most code is imperative</p>
 </section>
 
 <section class="slide">
@@ -263,11 +271,7 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <h1>Lists are powerful</h1>
-</section>
-
-<section class="slide">
-  <p>A Lisp program is a list which evaluates to its value</p>
+  <h1>Lisp</h1>
 </section>
 
 <section class="slide">
@@ -277,19 +281,32 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
   </blockquote>
 </section>
 
-<!-- TODO: mention that Lisps have very little syntax -->
-
 <section class="slide">
-  <p>Lists are so common that most languages offer literal syntax</p>
+  <p>The word “Lisp” is derived from <span style="white-space:nowrap">“LISt Processing”</span></p>
 </section>
 
 <section class="slide">
-  <pre><code class="javascript">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]
+  <p>Lists are at the heart of Lisp</p>
+</section>
+
+<section class="slide">
+  <p>Even Lisp programs are lists!</p>
+</section>
+
+<!-- TODO: mention that Lisps have very little syntax -->
+
+<section class="slide">
+  <p>But lists are widely used in most languages, so why is Lisp special?</p>
+</section>
+
+<section class="slide">
+  <p>This is probably what you imagine when you hear the word “list”</p>
+  <pre style="font-size:150%"><code class="javascript">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]
 </code></pre>
 </section>
 
 <section class="slide">
-  <p>But not all sequences can be represented in this manner</p>
+  <p>But not all lists can be represented in this manner</p>
 </section>
 
 <section class="slide">
@@ -319,14 +336,6 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
   <span class="keyword">this</span>.state.first = <span class="keyword">this</span>.state;
   <span class="keyword">this</span>.state.rest = <span class="keyword">this</span>.state;
 }
-</code></pre>
-</section>
-
-<section class="slide">
-  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = <span class="keyword">new</span> <span class="ctor">LazySeq</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]);
-<span class="literal undefined">undefined</span>
-<span class="prompt">&gt;</span> seq.first()
-TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </code></pre>
 </section>
 
@@ -374,7 +383,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 
 <span class="keyword">function</span> rest(iter) {
   <span class="keyword">return</span> iter <span class="keyword">instanceof</span> <span class="ctor">LazySeq</span> ?
-         iter.rest() : iter.slice(<span class="number">1</span>);
+         iter.rest() : [].slice.call(iter, <span class="number">1</span>);
 }
 </code></pre>
 </section>
@@ -690,15 +699,14 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 
 <section class="slide">
   <pre><code class="javascript"><span class="keyword">function</span> range() {
-  <span class="keyword">var</span> arity = arguments.length;
   <span class="keyword">var</span> start = <span class="number">0</span>, end = <span class="number">Infinity</span>, step = <span class="number">1</span>;
-  <span class="keyword">switch</span> (<span class="literal">true</span>) {
-    <span class="keyword">case</span> arity == <span class="number">1</span>: end   = arguments[<span class="number">0</span>]; <span class="keyword">break</span>;
-    <span class="keyword">case</span> arity == <span class="number">2</span>: start = arguments[<span class="number">0</span>];
-                     end   = arguments[<span class="number">1</span>]; <span class="keyword">break</span>;
-    <span class="keyword">case</span> arity &gt;= <span class="number">3</span>: start = arguments[<span class="number">0</span>];
-                     end   = arguments[<span class="number">1</span>];
-                     step  = arguments[<span class="number">2</span>];
+  <span class="keyword">switch</span> (arguments.length) {
+    <span class="keyword">case</span> <span class="number">1</span>: end   = arguments[<span class="number">0</span>]; <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">2</span>: start = arguments[<span class="number">0</span>];
+            end   = arguments[<span class="number">1</span>]; <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">3</span>: start = arguments[<span class="number">0</span>];
+            end   = arguments[<span class="number">1</span>];
+            step  = arguments[<span class="number">2</span>];
   }
   <span class="comment">// ...</span>
 }
@@ -706,7 +714,7 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <p>The main problem with this approach is that we’ll end up writing this code for each function with multiple modes</p>
+  <p>The problem with this approach is that we’ll end up writing this code for each multi-arity function</p>
 </section>
 
 <section class="slide">
@@ -762,23 +770,42 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <h1>Lisp is incredible</h1>
+  <p>Now, let’s use <code>def</code> to define <code>product</code> without a conditional…</p>
 </section>
 
 <section class="slide">
-  <h1>JavaScript is ubiquitous</h1>
+  <p>First, let’s update <code>def</code> to handle variadic functions…</p>
 </section>
 
 <section class="slide">
-  <h1>Lisp is incredible</h1>
+<pre><code class="javascript"><span class="keyword">function</span> def(name, fs) {
+  <span class="keyword">return</span> <span class="keyword">function</span>() {
+    <span class="keyword">var</span> idx = fs.length;
+    <span class="keyword">while</span> (idx--) {
+      <span class="keyword">var</span> arity = fs[idx].length;
+      <span class="keyword">if</span> (arity &lt;= arguments.length) {
+        <span class="keyword">return</span> apply(fs[idx], arguments);
+      }
+    }
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="ctor">Error</span>(name + <span class="string">" takes at least "</span> + arity + <span class="string">" args"</span> +
+                    <span class="string">" ("</span> + arguments.length + <span class="string">" given)"</span>);
+  };
+}
+</code></pre>
 </section>
 
 <section class="slide">
-  <h1>JavaScript is ubiquitous</h1>
+  <pre><code class="javascript"><span class="keyword">var</span> product = def(<span class="string">"product"</span>, [
+  <span class="keyword">function</span>() { <span class="keyword">return</span> <span class="number">1</span>; },
+  <span class="keyword">function</span>(n) {
+    <span class="keyword">return</span> n * apply(product, rest(arguments));
+  }
+]);
+</code></pre>
 </section>
 
 <section class="slide">
-  <h1>Lisp is incredible</h1>
+  <h1>Lisp is wondrous</h1>
 </section>
 
 <section class="slide">
@@ -799,10 +826,6 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 
 <section class="slide">
   <h1>Confused type system</h1>
-</section>
-
-<section class="slide">
-  <p><code><span class="keyword">typeof</span></code></p>
 </section>
 
 <section class="slide">
@@ -872,6 +895,60 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
+  <h1><code style="font-family:monospace">$$[<span class="string">"is?"</span>]</code></h1>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">String</span>, <span class="string">"abc"</span>)
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">String</span>, <span class="keyword">new</span> <span class="ctor">String</span>(<span class="string">"abc"</span>))
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Array</span>, [])
+<span class="literal">true</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Works for user-defined types</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Foo</span>, foo)
+<span class="literal">true</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Handles inheritance</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> err = <span class="keyword">new</span> <span class="ctor">TypeError</span>()
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">TypeError</span>, err)
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Error</span>, err)
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Object</span>, err)
+<span class="literal">true</span>
+</code></pre>
+</section>
+
+<section class="slide">
+  <p>Lends itself to partial application</p>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> isArray = $$[<span class="string">"partial"</span>]($$[<span class="string">"is?"</span>], <span class="ctor">Array</span>)
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> isArray([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> isArray(<span class="string">"abc"</span>)
+<span class="literal">false</span>
+</code></pre>
+</section>
+
+<section class="slide">
   <h1>No sets or maps*</h1>
   <aside>* coming in ES6</aside>
 </section>
@@ -921,6 +998,20 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
+  <h1><code style="font-family:monospace">$$.Set</code></h1>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> set = $$.<span class="ctor">Set</span>([<span class="string">"foo"</span>, <span class="number">42</span>])
+<span class="literal undefined">undefined</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"contains?"</span>](set, <span class="number">42</span>)
+<span class="literal">true</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"contains?"</span>](set, <span class="string">"42"</span>)
+<span class="literal">false</span>
+</code></pre>
+</section>
+
+<section class="slide">
   <h1>No notion of value</h1>
 </section>
 
@@ -960,93 +1051,22 @@ TypeError: Object #&lt;LazySeq&gt; has no method "first"
 </section>
 
 <section class="slide">
-  <p>JavaScript needs a <code>====</code> operator</p>
+  <h1><code style="font-family:monospace">$$[<span class="string">"="</span>]</code></h1>
 </section>
 
 <section class="slide">
-  <h1>Verbose function syntax</h1>
-</section>
-
-<section class="slide">
-  <pre><code class="clojure"><span class="comment">;; Clojure</span>
-(defn identity [x] x)
-</code></pre>
-</section>
-
-<section class="slide">
-  <pre><code class="haskell"><span class="comment">-- Haskell</span>
-identity a = a
-</code></pre>
-</section>
-
-<section class="slide">
-  <pre><code class="javascript"><span class="comment">// JavaScript</span>
-<span class="keyword">function</span> identity(x) { <span class="keyword">return</span> x; }
-</code></pre>
-</section>
-
-<section class="slide">
-  <p>Acceptable type checking via a single function</p>
-</section>
-
-<section class="slide">
-  <pre><code class="javascript"><span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">String</span>, <span class="string">"abc"</span>)
+  <pre><code class="javascript">
+<span class="prompt">&gt;</span> $$[<span class="string">"="</span>]([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])
 <span class="literal">true</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">String</span>, <span class="keyword">new</span> <span class="ctor">String</span>(<span class="string">"abc"</span>))
-<span class="literal">true</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Array</span>, [])
-<span class="literal">true</span>
-</code></pre>
-</section>
-
-<section class="slide">
-  <p>Works for user-defined types</p>
-</section>
-
-<section class="slide">
-  <pre><code class="javascript"><span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Foo</span>, foo)
-<span class="literal">true</span>
-</code></pre>
-</section>
-
-<section class="slide">
-  <p>Handles inheritance</p>
-</section>
-
-<section class="slide">
-  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> err = <span class="keyword">new</span> <span class="ctor">TypeError</span>()
-<span class="literal undefined">undefined</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">TypeError</span>, err)
-<span class="literal">true</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Error</span>, err)
-<span class="literal">true</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Object</span>, err)
-<span class="literal">true</span>
-</code></pre>
-</section>
-
-<section class="slide">
-  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> set = $$.<span class="ctor">Set</span>([<span class="string">"foo"</span>, <span class="number">42</span>])
-<span class="literal undefined">undefined</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"contains?"</span>](set, <span class="number">42</span>)
-<span class="literal">true</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"contains?"</span>](set, <span class="string">"42"</span>)
+<span class="prompt">&gt;</span> $$[<span class="string">"="</span>]([<span class="number">42</span>], <span class="number">42</span>)
+<span class="literal">false</span>
+<span class="prompt">&gt;</span> $$[<span class="string">"="</span>](<span class="number">0</span>, <span class="number">-0</span>)
 <span class="literal">false</span>
 </code></pre>
 </section>
 
 <section class="slide">
-  <p>Lends itself to partial application</p>
-</section>
-
-<section class="slide">
-  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> isArray = $$[<span class="string">"partial"</span>]($$[<span class="string">"is?"</span>], <span class="ctor">Array</span>)
-<span class="literal undefined">undefined</span>
-<span class="prompt">&gt;</span> isArray([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])
-<span class="literal">true</span>
-<span class="prompt">&gt;</span> isArray(<span class="string">"abc"</span>)
-<span class="literal">false</span>
-</code></pre>
+  <h1>Thanks</h1>
 </section>
 
 <!-- End slides. -->
