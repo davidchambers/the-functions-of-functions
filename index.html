@@ -983,15 +983,15 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <h1><code style="font-family:monospace">$$.Set</code></h1>
+  <h1><code style="font-family:monospace">set</code></h1>
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> set = $$.<span class="ctor">Set</span>([<span class="string">"foo"</span>, <span class="number">42</span>])
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> set = $$(<span class="string">"set"</span>, <span class="number">42</span>, <span class="string">"foo"</span>)
 <span class="literal undefined">undefined</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"contains?"</span>](set, <span class="number">42</span>)
+<span class="prompt">&gt;</span> $$(<span class="string">"contains?"</span>, set, <span class="number">42</span>)
 <span class="literal">true</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"contains?"</span>](set, <span class="string">"42"</span>)
+<span class="prompt">&gt;</span> $$(<span class="string">"contains?"</span>, set, <span class="string">"42"</span>)
 <span class="literal">false</span>
 </code></pre>
 </section>
