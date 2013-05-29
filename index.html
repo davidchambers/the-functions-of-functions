@@ -615,22 +615,11 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> distinct(seq) {
-  <span class="keyword">return</span> <span class="keyword">new</span> <span class="ctor">LazySeq</span>(<span class="keyword">function</span>() {
-    <span class="keyword">return</span> cons(first(seq),
-                distinct(remove(partial(equal, first(seq)),
-                                rest(seq))));
-  });
-}
-
-<span class="keyword">function</span> equal(a, b) {
+  <pre><code class="javascript"><span class="keyword">function</span> equal(a, b) {
   <span class="keyword">return</span> a === b;
 }
-</code></pre>
-</section>
 
-<section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> remove(pred, seq) {
+<span class="keyword">function</span> remove(pred, seq) {
   <span class="keyword">return</span> filter(complement(pred), seq);
 }
 
@@ -638,6 +627,16 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
   <span class="keyword">return</span> <span class="keyword">function</span>() {
     <span class="keyword">return</span> !apply(f, arguments);
   };
+}
+</code></pre>
+</section>
+
+<section class="slide">
+  <pre><code class="javascript"><span class="keyword">function</span> distinct(seq) {
+  <span class="keyword">return</span> <span class="keyword">new</span> <span class="ctor">LazySeq</span>(<span class="keyword">function</span>() {
+    <span class="keyword">var</span> f = first(seq), r = rest(seq);
+    <span class="keyword">return</span> cons(f, distinct(remove(partial(equal, f), r)));
+  });
 }
 </code></pre>
 </section>
