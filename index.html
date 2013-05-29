@@ -569,20 +569,6 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> seq = map(partial(product, <span class="number">10</span>), range(<span class="number">0</span>))
-<span class="literal undefined">undefined</span>
-<span class="prompt">&gt;</span> first(seq)
-<span class="number">0</span>
-<span class="prompt">&gt;</span> first(rest(seq))
-<span class="number">10</span>
-<span class="prompt">&gt;</span> first(rest(rest(seq)))
-<span class="number">20</span>
-<span class="prompt">&gt;</span> first(rest(rest(rest(seq))))
-<span class="number">30</span>
-</code></pre>
-</section>
-
-<section class="slide">
   <p>Next up: <code>filter</code></p>
 </section>
 
