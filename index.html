@@ -496,9 +496,8 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 
 <section class="slide">
   <pre><code class="javascript"><span class="keyword">function</span> product() {
-  <span class="keyword">var</span> args = [].slice.call(arguments);
-  <span class="keyword">return</span> args.length == <span class="number">0</span> ? <span class="number">1</span> :
-    first(args) * apply(product, rest(args));
+  <span class="keyword">return</span> arguments.length == <span class="number">0</span> ? <span class="number">1</span> :
+    first(arguments) * apply(product, rest(arguments));
 }
 
 <span class="keyword">function</span> apply(f, args) {
