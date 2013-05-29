@@ -1036,16 +1036,16 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <h1><code style="font-family:monospace">$$[<span class="string">"="</span>]</code></h1>
+  <h1><code style="font-family:monospace">=</code></h1>
 </section>
 
 <section class="slide">
   <pre><code class="javascript">
-<span class="prompt">&gt;</span> $$[<span class="string">"="</span>]([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])
+<span class="prompt">&gt;</span> $$(<span class="string">"="</span>, [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])
 <span class="literal">true</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"="</span>]([<span class="number">42</span>], <span class="number">42</span>)
+<span class="prompt">&gt;</span> $$(<span class="string">"="</span>, [<span class="number">42</span>], <span class="number">42</span>)
 <span class="literal">false</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"="</span>](<span class="number">0</span>, <span class="number">-0</span>)
+<span class="prompt">&gt;</span> $$(<span class="string">"="</span>, <span class="number">0</span>, <span class="number">-0</span>)
 <span class="literal">false</span>
 </code></pre>
 </section>
