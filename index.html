@@ -330,19 +330,23 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> <span class="ctor">LazySeq</span>(iter) {
-  <span class="keyword">this</span>.iter = iter;
+  <pre><code class="javascript"><span class="keyword">function</span> <span class="ctor">LazySeq</span>(f) {
+  <span class="keyword">this</span>.f = f;
   <span class="keyword">this</span>.state = {};
+  <span class="keyword">this</span>.state.all   = <span class="keyword">this</span>.state;
   <span class="keyword">this</span>.state.first = <span class="keyword">this</span>.state;
-  <span class="keyword">this</span>.state.rest = <span class="keyword">this</span>.state;
+  <span class="keyword">this</span>.state.rest  = <span class="keyword">this</span>.state;
 }
 </code></pre>
 </section>
 
 <section class="slide">
   <pre><code class="javascript"><span class="ctor">LazySeq</span>.prototype.first = <span class="keyword">function</span>() {
+  <span class="keyword">if</span> (<span class="keyword">this</span>.state.all === <span class="keyword">this</span>.state) {
+    <span class="keyword">this</span>.state.all = <span class="keyword">this</span>.f();
+  }
   <span class="keyword">if</span> (<span class="keyword">this</span>.state.first === <span class="keyword">this</span>.state) {
-    <span class="keyword">this</span>.state.first = <span class="keyword">this</span>.iter[<span class="number">0</span>];
+    <span class="keyword">this</span>.state.first = first(<span class="keyword">this</span>.state.all);
   }
   <span class="keyword">return</span> <span class="keyword">this</span>.state.first;
 };
@@ -351,28 +355,15 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 
 <section class="slide">
   <pre><code class="javascript"><span class="ctor">LazySeq</span>.prototype.rest = <span class="keyword">function</span>() {
+  <span class="keyword">if</span> (<span class="keyword">this</span>.state.all === <span class="keyword">this</span>.state) {
+    <span class="keyword">this</span>.state.all = <span class="keyword">this</span>.f();
+  }
   <span class="keyword">if</span> (<span class="keyword">this</span>.state.rest === <span class="keyword">this</span>.state) {
-    <span class="keyword">this</span>.state.rest = <span class="keyword">this</span>.iter.slice(<span class="number">1</span>);
+    <span class="keyword">this</span>.state.rest = rest(<span class="keyword">this</span>.state.all);
   }
   <span class="keyword">return</span> <span class="keyword">this</span>.state.rest;
 };
 </code></pre>
-</section>
-
-<section class="slide">
-  <pre><code class="javascript"><span class="prompt">&gt;</span> seq.first()
-<span class="number">1</span>
-<span class="prompt">&gt;</span> seq.rest()
-[<span class="number">2</span>,<span class="number">3</span>]
-</code></pre>
-</section>
-
-<section class="slide">
-  <h1>Making <code><span class="ctor">LazySeq</span></code> lazy</h1>
-</section>
-
-<section class="slide">
-  <p>First, a couple of helper functions…</p>
 </section>
 
 <section class="slide">
@@ -385,26 +376,6 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
   <span class="keyword">return</span> iter <span class="keyword">instanceof</span> <span class="ctor">LazySeq</span> ?
          iter.rest() : [].slice.call(iter, <span class="number">1</span>);
 }
-</code></pre>
-</section>
-
-<section class="slide">
-  <pre><code class="javascript highlighted"><span class="ctor">LazySeq</span>.prototype.first = <span class="keyword">function</span>() {
-  <span class="keyword">if</span> (<span class="keyword">this</span>.state.first === <span class="keyword">this</span>.state) {
-    <span class="keyword">this</span>.state.first = <span class="highlight">first(<span class="keyword">this</span>.iter())</span>;
-  }
-  <span class="keyword">return</span> <span class="keyword">this</span>.state.first;
-};
-</code></pre>
-</section>
-
-<section class="slide">
-  <pre><code class="javascript highlighted"><span class="ctor">LazySeq</span>.prototype.rest = <span class="keyword">function</span>() {
-  <span class="keyword">if</span> (<span class="keyword">this</span>.state.rest === <span class="keyword">this</span>.state) {
-    <span class="keyword">this</span>.state.rest = <span class="highlight">rest(<span class="keyword">this</span>.iter())</span>;
-  }
-  <span class="keyword">return</span> <span class="keyword">this</span>.state.rest;
-};
 </code></pre>
 </section>
 
@@ -452,8 +423,9 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 <section class="slide">
   <pre><code class="javascript"><span class="keyword">function</span> cons(x, seq) {
   <span class="keyword">var</span> ls = <span class="keyword">new</span> <span class="ctor">LazySeq</span>();
+  ls.state.all   = <span class="literal">null</span>;
   ls.state.first = x;
-  ls.state.rest = seq;
+  ls.state.rest  = seq;
   <span class="keyword">return</span> ls;
 }
 </code></pre>
