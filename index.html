@@ -880,15 +880,15 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <h1><code style="font-family:monospace">$$[<span class="string">"is?"</span>]</code></h1>
+  <h1><code style="font-family:monospace">instance?</code></h1>
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">String</span>, <span class="string">"abc"</span>)
+  <pre><code class="javascript"><span class="prompt">&gt;</span> $$(<span class="string">"instance?"</span>, <span class="ctor">String</span>, <span class="string">"abc"</span>)
 <span class="literal">true</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">String</span>, <span class="keyword">new</span> <span class="ctor">String</span>(<span class="string">"abc"</span>))
+<span class="prompt">&gt;</span> $$(<span class="string">"instance?"</span>, <span class="ctor">String</span>, <span class="keyword">new</span> <span class="ctor">String</span>(<span class="string">"abc"</span>))
 <span class="literal">true</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Array</span>, [])
+<span class="prompt">&gt;</span> $$(<span class="string">"instance?"</span>, <span class="ctor">Array</span>, [])
 <span class="literal">true</span>
 </code></pre>
 </section>
@@ -898,7 +898,7 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Foo</span>, foo)
+  <pre><code class="javascript"><span class="prompt">&gt;</span> $$(<span class="string">"instance?"</span>, <span class="ctor">Foo</span>, foo)
 <span class="literal">true</span>
 </code></pre>
 </section>
@@ -910,11 +910,11 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 <section class="slide">
   <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> err = <span class="keyword">new</span> <span class="ctor">TypeError</span>()
 <span class="literal undefined">undefined</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">TypeError</span>, err)
+<span class="prompt">&gt;</span> $$(<span class="string">"instance?"</span>, <span class="ctor">TypeError</span>, err)
 <span class="literal">true</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Error</span>, err)
+<span class="prompt">&gt;</span> $$(<span class="string">"instance?"</span>, <span class="ctor">Error</span>, err)
 <span class="literal">true</span>
-<span class="prompt">&gt;</span> $$[<span class="string">"is?"</span>](<span class="ctor">Object</span>, err)
+<span class="prompt">&gt;</span> $$(<span class="string">"instance?"</span>, <span class="ctor">Object</span>, err)
 <span class="literal">true</span>
 </code></pre>
 </section>
@@ -924,7 +924,7 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> isArray = $$[<span class="string">"partial"</span>]($$[<span class="string">"is?"</span>], <span class="ctor">Array</span>)
+  <pre><code class="javascript"><span class="prompt">&gt;</span> <span class="keyword">var</span> isArray = $$(<span class="string">"partial"</span>, <span class="string">"instance?"</span>, <span class="ctor">Array</span>)
 <span class="literal undefined">undefined</span>
 <span class="prompt">&gt;</span> isArray([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])
 <span class="literal">true</span>
