@@ -508,7 +508,7 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> product() {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> product() {
   <span class="keyword">return</span> arguments.length == <span class="number">0</span> ? <span class="number">1</span> :
     first(arguments) * apply(product, rest(arguments));
 }
@@ -516,6 +516,15 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 <span class="keyword">function</span> apply(f, args) {
   <span class="keyword">return</span> f.apply(<span class="literal">null</span>, args);
 }
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">product = (args...) <span class="keyword">-&gt;</span>
+  <span class="keyword">if</span> args.length is <span class="number">0</span>
+    <span class="number">1</span>
+  <span class="keyword">else</span>
+    (first args) * (apply product, rest args)
+
+apply = (f, args) <span class="keyword">-&gt;</span>
+  f.apply null, args
 </code></pre>
 </section>
 
