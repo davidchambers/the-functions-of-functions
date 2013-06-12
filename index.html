@@ -344,37 +344,52 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> <span class="ctor">LazySeq</span>(f) {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> <span class="ctor">LazySeq</span>(f) {
   <span class="keyword">this</span>.f = f;
   <span class="keyword">this</span>.state = {};
   <span class="keyword">this</span>.state.first = <span class="keyword">this</span>.state;
   <span class="keyword">this</span>.state.rest = <span class="keyword">this</span>.state;
 }
 </code></pre>
+  <pre class="coffeescript"><code class="coffeescript"><span class="ctor">LazySeq</span> = (@f) <span class="keyword">-&gt;</span>
+  @state = {}
+  @state.first = @state
+  @state.rest = @state
+</code></pre>
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="ctor">LazySeq</span>.prototype.first = <span class="keyword">function</span>() {
+  <pre class="javascript"><code class="javascript"><span class="ctor">LazySeq</span>.prototype.first = <span class="keyword">function</span>() {
   <span class="keyword">if</span> (<span class="keyword">this</span>.state.first === <span class="keyword">this</span>.state) {
     <span class="keyword">this</span>.state.first = first(<span class="keyword">this</span>.f());
   }
   <span class="keyword">return</span> <span class="keyword">this</span>.state.first;
 };
 </code></pre>
+  <pre class="coffeescript"><code class="coffeescript"><span class="ctor">LazySeq</span>::first = <span class="keyword">-&gt;</span>
+  <span class="keyword">if</span> @state.first <span class="keyword">is</span> @state
+    @state.first = first @f()
+  @state.first
+</code></pre>
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="ctor">LazySeq</span>.prototype.rest = <span class="keyword">function</span>() {
+  <pre class="javascript"><code class="javascript"><span class="ctor">LazySeq</span>.prototype.rest = <span class="keyword">function</span>() {
   <span class="keyword">if</span> (<span class="keyword">this</span>.state.rest === <span class="keyword">this</span>.state) {
     <span class="keyword">this</span>.state.rest = rest(<span class="keyword">this</span>.f());
   }
   <span class="keyword">return</span> <span class="keyword">this</span>.state.rest;
 };
 </code></pre>
+  <pre class="coffeescript"><code class="coffeescript"><span class="ctor">LazySeq</span>::rest = <span class="keyword">-&gt;</span>
+  <span class="keyword">if</span> @state.rest <span class="keyword">is</span> @state
+    @state.rest = rest @f()
+  @state.rest
+</code></pre>
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> first(iter) {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> first(iter) {
   <span class="keyword">return</span> iter <span class="keyword">instanceof</span> <span class="ctor">LazySeq</span> ?
          iter.first() : iter[<span class="number">0</span>];
 }
@@ -383,6 +398,18 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
   <span class="keyword">return</span> iter <span class="keyword">instanceof</span> <span class="ctor">LazySeq</span> ?
          iter.rest() : [].slice.call(iter, <span class="number">1</span>);
 }
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">first = (iter) <span class="keyword">-&gt;</span>
+  <span class="keyword">if</span> iter <span class="keyword">instanceof</span> <span class="ctor">LazySeq</span>
+    iter.first()
+  <span class="keyword">else</span>
+    iter[<span class="number">0</span>]
+
+rest = (iter) <span class="keyword">-&gt;</span>
+  <span class="keyword">if</span> iter <span class="keyword">instanceof</span> <span class="ctor">LazySeq</span>
+    iter.rest()
+  <span class="keyword">else</span>
+    <span class="ctor">Array</span>::slice.call iter, <span class="number">1</span>
 </code></pre>
 </section>
 
@@ -428,12 +455,18 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> cons(x, seq) {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> cons(x, seq) {
   <span class="keyword">var</span> ls = <span class="keyword">new</span> <span class="ctor">LazySeq</span>();
   ls.state.first = x;
   ls.state.rest = seq;
   <span class="keyword">return</span> ls;
 }
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">cons = (x, seq) <span class="keyword">-&gt;</span>
+  ls = <span class="keyword">new</span> <span class="ctor">LazySeq</span>
+  ls.state.first = x
+  ls.state.rest = seq
+  ls
 </code></pre>
 </section>
 
@@ -677,11 +710,14 @@ complement = (f) <span class="keyword">-&gt;</span> (args...) <span class="keywo
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> range(start) {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> range(start) {
   <span class="keyword">return</span> cons(start, <span class="keyword">new</span> <span class="ctor">LazySeq</span>(function() {
     <span class="keyword">return</span> range(start + <span class="number">1</span>);
   }));
 }
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">range = (start) <span class="keyword">-&gt;</span>
+  cons start, <span class="keyword">new</span> <span class="ctor">LazySeq</span> <span class="keyword">-&gt;</span> range start + 1
 </code></pre>
 </section>
 
@@ -700,7 +736,7 @@ complement = (f) <span class="keyword">-&gt;</span> (args...) <span class="keywo
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> range() {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> range() {
   <span class="keyword">var</span> start = <span class="number">0</span>, end = <span class="number">Infinity</span>, step = <span class="number">1</span>;
   <span class="keyword">switch</span> (arguments.length) {
     <span class="keyword">case</span> <span class="number">1</span>: end   = arguments[<span class="number">0</span>]; <span class="keyword">break</span>;
@@ -712,6 +748,14 @@ complement = (f) <span class="keyword">-&gt;</span> (args...) <span class="keywo
   }
   <span class="comment">// ...</span>
 }
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">range = (args...) <span class="keyword">-&gt;</span>
+  start = <span class="number">0</span>; end = <span class="number">Infinity</span>; step = <span class="number">1</span>
+  <span class="keyword">switch</span> args.length
+    <span class="keyword">when</span> <span class="number">1</span> <span class="keyword">then</span> [end] = args
+    <span class="keyword">when</span> <span class="number">2</span> <span class="keyword">then</span> [start, end] = args
+    <span class="keyword">when</span> <span class="number">3</span> <span class="keyword">then</span> [start, end, step] = args
+  <span class="comment"># ...</span>
 </code></pre>
 </section>
 
@@ -728,12 +772,23 @@ complement = (f) <span class="keyword">-&gt;</span> (args...) <span class="keywo
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">var</span> range = def([
+  <pre class="javascript"><code class="javascript"><span class="keyword">var</span> range = def([
   <span class="keyword">function</span>() { ... },
   <span class="keyword">function</span>(end) { ... },
   <span class="keyword">function</span>(start, end) { ... },
   <span class="keyword">function</span>(start, end, step) { ... }
 ]);
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">range = def [
+  <span class="keyword">-&gt;</span>
+    <span class="comment"># ...</span>
+  (end) <span class="keyword">-&gt;</span>
+    <span class="comment"># ...</span>
+  (start, end) <span class="keyword">-&gt;</span>
+    <span class="comment"># ...</span>
+  (start, end, step) <span class="keyword">-&gt;</span>
+    <span class="comment"># ...</span>
+]
 </code></pre>
 </section>
 
@@ -742,7 +797,7 @@ complement = (f) <span class="keyword">-&gt;</span> (args...) <span class="keywo
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> def(fs) {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> def(fs) {
   <span class="keyword">return</span> <span class="keyword">function</span>() {
     <span class="keyword">for</span> (<span class="keyword">var</span> idx = <span class="number">0</span>; idx &lt; fs.length; idx++) {
       <span class="keyword">if</span> (fs[idx].length == arguments.length) {
@@ -753,6 +808,13 @@ complement = (f) <span class="keyword">-&gt;</span> (args...) <span class="keywo
   };
 }
 </code></pre>
+  <pre class="coffeescript"><code class="javascript">
+def = (fs) <span class="keyword">-&gt;</span> (args...) <span class="keyword">-&gt;</span>
+  <span class="keyword">for</span> f <span class="keyword">in</span> fs
+    <span class="keyword">if</span> f.length <span class="keyword">is</span> args.length
+      <span class="keyword">return</span> apply f, args
+  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="ctor">Error</span> <span class="string">"Wrong number of args"</span>
+</code></pre>
 </section>
 
 <section class="slide">
@@ -760,7 +822,7 @@ complement = (f) <span class="keyword">-&gt;</span> (args...) <span class="keywo
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">var</span> range = def([
+  <pre class="javascript"><code class="javascript"><span class="keyword">var</span> range = def([
   <span class="keyword">function</span>() {           <span class="keyword">return</span> range(<span class="number">Infinity</span>);      },
   <span class="keyword">function</span>(end) {        <span class="keyword">return</span> range(<span class="number">0</span>, end);        },
   <span class="keyword">function</span>(start, end) { <span class="keyword">return</span> range(start, end, <span class="number">1</span>); },
@@ -768,6 +830,17 @@ complement = (f) <span class="keyword">-&gt;</span> (args...) <span class="keywo
     <span class="comment">// ...</span>
   }
 ]);
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">range = def [
+  <span class="keyword">-&gt;</span>
+    range <span class="number">Infinity</span>
+  (end) <span class="keyword">-&gt;</span>
+    range <span class="number">0</span>, end
+  (start, end) <span class="keyword">-&gt;</span>
+    range start, end, <span class="number">1</span>
+  (start, end, step) <span class="keyword">-&gt;</span>
+    <span class="comment"># ...</span>
+]
 </code></pre>
 </section>
 
@@ -780,7 +853,7 @@ complement = (f) <span class="keyword">-&gt;</span> (args...) <span class="keywo
 </section>
 
 <section class="slide">
-<pre><code class="javascript"><span class="keyword">function</span> def(name, fs) {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> def(name, fs) {
   <span class="keyword">return</span> <span class="keyword">function</span>() {
     <span class="keyword">var</span> idx = fs.length;
     <span class="keyword">while</span> (idx--) {
@@ -794,15 +867,31 @@ complement = (f) <span class="keyword">-&gt;</span> (args...) <span class="keywo
   };
 }
 </code></pre>
+  <pre class="coffeescript"><code class="coffeescript">def = (name, fs) <span class="keyword">-&gt;</span> (args...) <span class="keyword">-&gt;</span>
+  <span class="keyword">for</span> f <span class="keyword">in</span> fs <span class="keyword">by</span> <span class="number">-1</span>
+    <span class="keyword">if</span> f.length <span class="keyword">&lt;=</span> args.length
+      <span class="keyword">return</span> apply f, args
+  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="ctor">Error</span> \
+    <span class="string">"#{name} takes at least #{f.length} args"</span> +
+    <span class="string">" (#{args.length} given)"</span>
+</code></pre>
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">var</span> product = def(<span class="string">"product"</span>, [
+  <pre class="javascript"><code class="javascript"><span class="keyword">var</span> product = def(<span class="string">"product"</span>, [
   <span class="keyword">function</span>() { <span class="keyword">return</span> <span class="number">1</span>; },
   <span class="keyword">function</span>(n) {
     <span class="keyword">return</span> n * apply(product, rest(arguments));
   }
 ]);
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">
+product = def <span class="string">"product"</span>, [
+  <span class="keyword">-&gt;</span>
+    <span class="number">1</span>
+  (n, rest...) <span class="keyword">-&gt;</span>
+    n * apply product, rest
+]
 </code></pre>
 </section>
 
