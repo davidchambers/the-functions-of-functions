@@ -454,11 +454,14 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> range(start) {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> range(start) {
   <span class="keyword">return</span> cons(start, <span class="keyword">new</span> <span class="ctor">LazySeq</span>(function() {
     <span class="keyword">return</span> range(start + <span class="number">1</span>);
   }));
 }
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">range = (start) <span class="keyword">-&gt;</span>
+  cons start, <span class="keyword">new</span> <span class="ctor">LazySeq</span> <span class="keyword">-&gt;</span> range start + 1
 </code></pre>
 </section>
 
@@ -1061,6 +1064,28 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 <script src="lib/deck.js/extensions/status/deck.status.js"></script>
 <script src="lib/deck.js/extensions/navigation/deck.navigation.js"></script>
 <script src="lib/deck.js/extensions/scale/deck.scale.js"></script>
+
+<script>
+  $(function($) {
+    var o = {
+      language: 'javascript',
+      toggleLanguage: function() {
+        this.language =
+          this.language === 'javascript' ? 'coffeescript' : 'javascript';
+        this.render();
+      },
+      render: function() {
+        $('.deck-container').attr('data-language', this.language);
+      }
+    };
+
+    o.render();
+
+    $(document).keyup(function(evt) {
+      if (String.fromCharCode(evt.which) === 'C') o.toggleLanguage();
+    });
+  });
+</script>
 
 <script>$.deck('.slide')</script>
 </body>

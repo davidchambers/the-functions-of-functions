@@ -53,8 +53,17 @@
   border: none;
   padding: 0;
 }
-.deck-container .slide pre:first-child {
+.deck-container .slide pre:first-child,
+.deck-container .slide pre.coffeescript {
   margin-top: 96px;
+}
+.deck-container .slide pre.javascript,
+.deck-container .slide pre.coffeescript {
+  display: none;
+}
+.deck-container[data-language="javascript"] .slide pre.javascript,
+.deck-container[data-language="coffeescript"] .slide pre.coffeescript {
+  display: block;
 }
 .deck-container .slide pre > code {
   background: none;
