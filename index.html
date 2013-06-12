@@ -128,7 +128,7 @@
 
 <section class="slide">
   <p>Deterministic expressions can be executed in parallel</p>
-  <pre><code class="haskell">qs :: Ord a =&gt; [a] -&gt; [a]
+  <pre><code class="haskell"><span class="comment">qs :: Ord a =&gt; [a] -&gt; [a]</span>
 qs []     = []
 qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
     <span class="keyword">where</span>
