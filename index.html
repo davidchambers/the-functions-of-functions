@@ -486,12 +486,16 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> map(f, seq) {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> map(f, seq) {
   <span class="keyword">return</span> <span class="keyword">new</span> <span class="ctor">LazySeq</span>(<span class="keyword">function</span>() {
     <span class="keyword">return</span> cons(f(first(seq)),
                 map(f, rest(seq)));
   });
 }
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">map = (f, seq) <span class="keyword">-&gt;</span>
+  <span class="keyword">new</span> <span class="ctor">LazySeq</span> <span class="keyword">-&gt;</span>
+    cons (f first seq), (map f, rest seq)
 </code></pre>
 </section>
 
