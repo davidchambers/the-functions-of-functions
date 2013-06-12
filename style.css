@@ -124,6 +124,9 @@
   background: #c00;
   content: "";
 }
+.deck-container .slide .nowrap {
+  white-space: nowrap;
+}
 .deck-container .slide ::selection {
   background: #c00;
   color: #fff;
