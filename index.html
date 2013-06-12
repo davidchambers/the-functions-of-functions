@@ -87,6 +87,20 @@
 </section>
 
 <section class="slide">
+  <pre><code class="javascript"><span class="keyword">var</span> x = 1;
+<span class="keyword">var</span> y = 2;
+<span class="keyword">var</span> z = x + y;
+<span class="comment">//      ^^^^^</span>
+<span class="comment">//      referentially transparent expression</span>
+
+<span class="keyword">var</span> a = [x, y, z];
+<span class="keyword">var</span> b = a.pop();
+<span class="comment">//      ^^^^^^^</span>
+<span class="comment">//      referentially opaque expression</span>
+</code></pre>
+</section>
+
+<section class="slide">
   <p>Referentially transparent functions are easier to reason about, as one needn’t mentally construct a program’s state</p>
 </section>
 
