@@ -533,13 +533,16 @@ apply = (f, args) <span class="keyword">-&gt;</span>
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> partial(f) {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> partial(f) {
   <span class="keyword">var</span> args = [].slice.call(arguments, <span class="number">1</span>);
   <span class="keyword">return</span> <span class="keyword">function</span>() {
     <span class="keyword">return</span> apply(f,
       args.concat([].slice.call(arguments)));
   };
 }
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">partial = (f, bound...) <span class="keyword">-&gt;</span> (args...) <span class="keyword">-&gt;</span>
+  apply f, [bound..., args...]
 </code></pre>
 </section>
 
