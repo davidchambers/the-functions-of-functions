@@ -114,9 +114,9 @@
 
 <section class="slide">
   <p>Deterministic functions can be memoized</p>
-  <pre><code class="clojure"><span class="comment">; (g x) equivalent to (f x)</span>
-<span class="comment">; caching saves computation</span>
-(def g (memoize f))
+  <pre><code class="javascript"><span class="keyword">var</span> g = memoize(f);
+<span class="comment">// - g(x) equivalent to f(x) for every x</span>
+<span class="comment">// - caching saves computation</span>
 </code></pre>
 </section>
 
