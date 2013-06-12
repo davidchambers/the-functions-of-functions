@@ -569,13 +569,20 @@ apply = (f, args) <span class="keyword">-&gt;</span>
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> filter(pred, seq) {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> filter(pred, seq) {
   <span class="keyword">return</span> <span class="keyword">new</span> <span class="ctor">LazySeq</span>(<span class="keyword">function</span>() {
     <span class="keyword">return</span> pred(first(seq)) ?
       cons(first(seq), filter(pred, rest(seq))) :
       filter(pred, rest(seq));
   });
 }
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">filter = (pred, seq) <span class="keyword">-&gt;</span>
+  <span class="keyword">new</span> <span class="ctor">LazySeq</span> <span class="keyword">-&gt;</span>
+    <span class="keyword">if</span> pred first seq
+      cons (first seq), (filter pred, rest seq)
+    <span class="keyword">else</span>
+      filter pred, rest seq
 </code></pre>
 </section>
 
