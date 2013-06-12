@@ -618,7 +618,7 @@ apply = (f, args) <span class="keyword">-&gt;</span>
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> equal(a, b) {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> equal(a, b) {
   <span class="keyword">return</span> a === b;
 }
 
@@ -631,6 +631,14 @@ apply = (f, args) <span class="keyword">-&gt;</span>
     <span class="keyword">return</span> !apply(f, arguments);
   };
 }
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">equal = (a, b) <span class="keyword">-&gt;</span> a <span class="keyword">is</span> b
+
+remove = (pred, seq) <span class="keyword">-&gt;</span>
+  filter (complement pred), seq
+
+complement = (f) <span class="keyword">-&gt;</span> (args...) <span class="keyword">-&gt;</span>
+  <span class="keyword">not</span> apply f, args
 </code></pre>
 </section>
 
