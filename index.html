@@ -347,20 +347,16 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
   <pre><code class="javascript"><span class="keyword">function</span> <span class="ctor">LazySeq</span>(f) {
   <span class="keyword">this</span>.f = f;
   <span class="keyword">this</span>.state = {};
-  <span class="keyword">this</span>.state.all   = <span class="keyword">this</span>.state;
   <span class="keyword">this</span>.state.first = <span class="keyword">this</span>.state;
-  <span class="keyword">this</span>.state.rest  = <span class="keyword">this</span>.state;
+  <span class="keyword">this</span>.state.rest = <span class="keyword">this</span>.state;
 }
 </code></pre>
 </section>
 
 <section class="slide">
   <pre><code class="javascript"><span class="ctor">LazySeq</span>.prototype.first = <span class="keyword">function</span>() {
-  <span class="keyword">if</span> (<span class="keyword">this</span>.state.all === <span class="keyword">this</span>.state) {
-    <span class="keyword">this</span>.state.all = <span class="keyword">this</span>.f();
-  }
   <span class="keyword">if</span> (<span class="keyword">this</span>.state.first === <span class="keyword">this</span>.state) {
-    <span class="keyword">this</span>.state.first = first(<span class="keyword">this</span>.state.all);
+    <span class="keyword">this</span>.state.first = first(<span class="keyword">this</span>.f());
   }
   <span class="keyword">return</span> <span class="keyword">this</span>.state.first;
 };
@@ -369,11 +365,8 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 
 <section class="slide">
   <pre><code class="javascript"><span class="ctor">LazySeq</span>.prototype.rest = <span class="keyword">function</span>() {
-  <span class="keyword">if</span> (<span class="keyword">this</span>.state.all === <span class="keyword">this</span>.state) {
-    <span class="keyword">this</span>.state.all = <span class="keyword">this</span>.f();
-  }
   <span class="keyword">if</span> (<span class="keyword">this</span>.state.rest === <span class="keyword">this</span>.state) {
-    <span class="keyword">this</span>.state.rest = rest(<span class="keyword">this</span>.state.all);
+    <span class="keyword">this</span>.state.rest = rest(<span class="keyword">this</span>.f());
   }
   <span class="keyword">return</span> <span class="keyword">this</span>.state.rest;
 };
@@ -437,9 +430,8 @@ qs (p:xs) = (qs lesser) ++ [p] ++ (qs greater)
 <section class="slide">
   <pre><code class="javascript"><span class="keyword">function</span> cons(x, seq) {
   <span class="keyword">var</span> ls = <span class="keyword">new</span> <span class="ctor">LazySeq</span>();
-  ls.state.all   = <span class="literal">null</span>;
   ls.state.first = x;
-  ls.state.rest  = seq;
+  ls.state.rest = seq;
   <span class="keyword">return</span> ls;
 }
 </code></pre>
