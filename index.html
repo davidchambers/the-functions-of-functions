@@ -643,12 +643,18 @@ complement = (f) <span class="keyword">-&gt;</span> (args...) <span class="keywo
 </section>
 
 <section class="slide">
-  <pre><code class="javascript"><span class="keyword">function</span> distinct(seq) {
+  <pre class="javascript"><code class="javascript"><span class="keyword">function</span> distinct(seq) {
   <span class="keyword">return</span> <span class="keyword">new</span> <span class="ctor">LazySeq</span>(<span class="keyword">function</span>() {
     <span class="keyword">var</span> f = first(seq), r = rest(seq);
     <span class="keyword">return</span> cons(f, distinct(remove(partial(equal, f), r)));
   });
 }
+</code></pre>
+  <pre class="coffeescript"><code class="coffeescript">distinct = (seq) <span class="keyword">-&gt;</span>
+  <span class="keyword">new</span> <span class="ctor">LazySeq</span> <span class="keyword">-&gt;</span>
+    pred = partial equal, first seq
+    cons (first seq), \
+         (distinct remove pred, rest seq)
 </code></pre>
 </section>
 
