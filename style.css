@@ -37,6 +37,10 @@
 .deck-container .slide li {
   padding: 0;
 }
+.deck-container .slide ol:first-child,
+.deck-container .slide ul:first-child {
+  margin-top: 96px;
+}
 .deck-container .slide p {
   margin-bottom: 0.5em;
   font-size: 80px;
@@ -102,6 +106,9 @@
 }
 .deck-container .slide pre > code .string {
   color: #800000;
+}
+.deck-container .slide a {
+  text-decoration: none;
 }
 .deck-container .slide aside {
   position: absolute;
